@@ -1,0 +1,265 @@
+{
+  "whole-page": {
+    "checks": [],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info"
+    ],
+    "heightPx": 3690,
+    "imageHeightPx": 3690,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 3690,
+    "truncated": false,
+    "bands": 8,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-1": 1
+    },
+    "richness": {
+      "clientPhotos": 1,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 6,
+      "branded": true
+    },
+    "fixRules": [],
+    "fixNotes": [],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  },
+  "hero-only-truncated": {
+    "checks": [
+      "structure.truncated",
+      "structure.unbalanced"
+    ],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info",
+      "render.footer"
+    ],
+    "heightPx": 1523,
+    "imageHeightPx": 1523,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 1523,
+    "truncated": false,
+    "bands": 3,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-1": 1
+    },
+    "richness": {
+      "clientPhotos": 1,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 2,
+      "branded": true
+    },
+    "fixRules": [],
+    "fixNotes": [],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info",
+      "render.footer"
+    ]
+  },
+  "words-with-no-icon": {
+    "checks": [
+      "icons.noIcon:warn"
+    ],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info"
+    ],
+    "heightPx": 3690,
+    "imageHeightPx": 3690,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 3690,
+    "truncated": false,
+    "bands": 8,
+    "noIconWords": [
+      "retractable awning",
+      "patio cover",
+      "sunroom"
+    ],
+    "photoUses": {
+      "tawd-asset:photo-1": 1
+    },
+    "richness": {
+      "clientPhotos": 1,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 6,
+      "branded": true
+    },
+    "fixRules": [],
+    "fixNotes": [],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  },
+  "one-photo-twice": {
+    "checks": [],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info"
+    ],
+    "heightPx": 3290,
+    "imageHeightPx": 3290,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 3290,
+    "truncated": false,
+    "bands": 8,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-1": 1,
+      "tawd-asset:photo-2": 1
+    },
+    "richness": {
+      "clientPhotos": 2,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 6,
+      "branded": true
+    },
+    "fixRules": [],
+    "fixNotes": [],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  },
+  "photos-read-from-the-site": {
+    "checks": [],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info"
+    ],
+    "heightPx": 3290,
+    "imageHeightPx": 3290,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 3290,
+    "truncated": false,
+    "bands": 8,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-site-1": 1,
+      "tawd-asset:photo-site-2": 1
+    },
+    "richness": {
+      "clientPhotos": 2,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 6,
+      "branded": true
+    },
+    "fixRules": [],
+    "fixNotes": [],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  },
+  "taller-than-the-cap": {
+    "checks": [],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info"
+    ],
+    "heightPx": 19790,
+    "imageHeightPx": 12000,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 12000,
+    "truncated": true,
+    "bands": 20,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-1": 1
+    },
+    "richness": {
+      "clientPhotos": 1,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 18,
+      "branded": true
+    },
+    "fixRules": [],
+    "fixNotes": [],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  },
+  "form-card-on-a-brand-band": {
+    "checks": [],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.contrast",
+      "a11y.tapTargets:info"
+    ],
+    "heightPx": 2325,
+    "imageHeightPx": 2325,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 2325,
+    "truncated": false,
+    "bands": 5,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-1": 1
+    },
+    "richness": {
+      "clientPhotos": 1,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 3,
+      "branded": true
+    },
+    "fixRules": [
+      "html body .tawd-fix-1.tawd-fix-1 { color: #112e56 !important; }",
+      "html body .tawd-fix-2.tawd-fix-2 { color: #112e56 !important; }",
+      "html body .tawd-fix-3.tawd-fix-3 { color: #112e56 !important; }"
+    ],
+    "fixNotes": [
+      "contrast: substituted the text that was #ffffff with #112e56",
+      "contrast: substituted the text that was #ffffff with #112e56",
+      "contrast: substituted the text that was #ffffff with #112e56"
+    ],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  },
+  "invisible-rule-and-text-icon": {
+    "checks": [],
+    "placeholders": 0,
+    "rendered": [
+      "a11y.tapTargets:info",
+      "design.invisibleRule:warn"
+    ],
+    "heightPx": 2419,
+    "imageHeightPx": 2419,
+    "pictureWidthPx": 1440,
+    "pictureHeightPx": 2419,
+    "truncated": false,
+    "bands": 6,
+    "noIconWords": [],
+    "photoUses": {
+      "tawd-asset:photo-1": 1
+    },
+    "richness": {
+      "clientPhotos": 1,
+      "stockFrames": 0,
+      "emptyFrames": 0,
+      "bands": 4,
+      "branded": true
+    },
+    "fixRules": [
+      "html body .tawd-edge-1.tawd-edge-1 { border-top-color: #112e56 !important; }",
+      "html body .tawd-edge-2.tawd-edge-2 { border-top-color: #112e56 !important; }",
+      "html body .tawd-edge-3.tawd-edge-3 { border-top-color: #112e56 !important; }"
+    ],
+    "fixNotes": [
+      "lines: substituted a top line that was #ffffff with #112e56",
+      "lines: substituted a top line that was #ffffff with #112e56",
+      "lines: substituted a top line that was #ffffff with #112e56"
+    ],
+    "renderedAfterFixes": [
+      "a11y.tapTargets:info"
+    ]
+  }
+}

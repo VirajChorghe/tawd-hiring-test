@@ -1,0 +1,99 @@
+# syntax=docker/dockerfile:1
+
+# The TAWD worker: builds mockup concepts and renders them.
+#
+# A separate Coolify application from the web app, with no domain and no
+# port. It talks to PostgreSQL, Redis, the Claude API and Cloudflare R2, and
+# it runs a headless browser.
+#
+# The browser is why this image is large and why the container wants 2 GB:
+# Chromium peaks near a gigabyte on a tall page. Jobs share one browser,
+# with at most TAWD_PAGES_AT_ONCE pages (default 3) open at once - see
+# locked-context.ts - because this droplet is shared.
+
+ARG NODE_VERSION=24
+# Must match "packageManager" in the root package.json.
+ARG PNPM_VERSION=12.5.1
+# Playwright and Astro (Build A builds client sites with it; telemetry off in
+# the runner) come from the lockfile, through `pnpm deploy` below (C8): one
+# version source, so the browser and the library always agree.
+
+# --------------------------------------------------------------------------
+# Stage 1: build
+# --------------------------------------------------------------------------
+FROM node:${NODE_VERSION}-bookworm-slim AS builder
+
+ARG PNPM_VERSION
+RUN npm install --global pnpm@${PNPM_VERSION}
+
+WORKDIR /app
+
+# Keep the build from eating the droplet's memory. It is shared.
+ENV NODE_OPTIONS=--max-old-space-size=1536
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/core/package.json ./packages/core/
+COPY apps/worker/package.json ./apps/worker/
+COPY apps/web/package.json ./apps/web/
+RUN pnpm install --frozen-lockfile
+
+COPY packages ./packages
+COPY apps/worker ./apps/worker
+# The build reads the newest database migration from the web app's journal, so the worker can wait
+# for it before taking jobs (schema-ready.ts). Without this line the build fails (0.121.0 deploy, 3 Nov 2026).
+COPY apps/web/drizzle/meta/_journal.json ./apps/web/drizzle/meta/
+
+# esbuild bundles the worker and @tawd/core into one file, so the runtime
+# image needs no node_modules for our own code.
+RUN pnpm --filter @tawd/worker build
+
+# C8 (audit F-031): the packages the worker needs at run time (Astro and
+# playwright-core, which stay outside the bundle), installed from the
+# lockfile with the workspace's overrides and its install-script allow-list.
+# They used to be installed in the runner with `npm install`, which resolved
+# every sub-package fresh, ignored the lockfile and the security overrides,
+# and ran any install script.
+RUN pnpm --filter @tawd/worker deploy --prod --legacy /deploy
+
+# --------------------------------------------------------------------------
+# Stage 2: run
+# --------------------------------------------------------------------------
+FROM node:${NODE_VERSION}-bookworm-slim AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+# Where the pinned, read-only design skills live in the image.
+ENV SKILLS_DIR=/app/skills
+# Playwright keeps the browser here rather than under a home directory, so
+# the unprivileged user can find it.
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+ENV ASTRO_TELEMETRY_DISABLED=1
+
+# Python is here for one reason: the UI UX Pro Max skill ships a search
+# script that its own instructions tell the model to run. It has no
+# dependencies and makes no network calls.
+RUN apt-get update \
+  && apt-get install --yes --no-install-recommends python3 ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+# playwright-core and Astro stay outside the bundle (playwright-core finds the
+# installed browser at runtime), so they sit here where Node resolves them
+# from apps/worker/dist: the lockfile's versions, from the builder (C8).
+COPY --from=builder --chown=root:root /deploy/node_modules ./node_modules
+# The browser, by the same playwright-core, so the two always agree.
+RUN node node_modules/playwright-core/cli.js install --with-deps chromium
+
+RUN groupadd --system --gid 1001 nodejs \
+  && useradd --system --uid 1001 --gid nodejs worker
+
+COPY --from=builder --chown=worker:nodejs /app/apps/worker/dist ./apps/worker/dist
+
+# The design skills, pinned and read-only. The worker only ever reads them,
+# and the permissions say so rather than merely the code.
+COPY --chown=root:root skills ./skills
+RUN chmod -R a-w ./skills
+
+USER worker
+
+CMD ["node", "apps/worker/dist/index.js"]

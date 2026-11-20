@@ -1,0 +1,1 @@
+ALTER TABLE "service_heartbeat" ADD COLUMN "env" jsonb DEFAULT '{}'::jsonb NOT NULL;

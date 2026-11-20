@@ -1,0 +1,1 @@
+ALTER TABLE "go_live" ADD COLUMN "registry" jsonb;

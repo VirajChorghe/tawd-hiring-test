@@ -1,0 +1,1 @@
+ALTER TABLE "speed_check" ADD COLUMN "build_version" integer;

@@ -1,0 +1,1 @@
+ALTER TABLE "concept_comment" ADD COLUMN "outcome_reason" text;

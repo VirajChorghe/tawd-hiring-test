@@ -1,0 +1,1 @@
+ALTER TABLE "concept_version" ADD COLUMN "reference_use" jsonb;

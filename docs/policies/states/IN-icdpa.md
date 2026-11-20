@@ -1,0 +1,3 @@
+## Indiana residents
+
+If you live in Indiana, the Indiana Consumer Data Protection Act gives you the right to confirm whether we process your personal data and to access it; to correct it; to delete it; to get a copy of data you gave us; and to opt out of targeted advertising, the sale of personal data, and profiling used for decisions with legal or similarly significant effects. To make a request, email {{business.privacy_email}} or call {{business.phone}}. We respond within 45 days, and may extend once by 45 more days if we tell you why. If we decline your request, you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. We will reply in writing, and if we deny your appeal we will tell you how to contact the Indiana Attorney General.

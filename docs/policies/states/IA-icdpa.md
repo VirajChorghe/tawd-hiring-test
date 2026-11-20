@@ -1,0 +1,3 @@
+## Iowa residents
+
+If you live in Iowa, the Iowa Consumer Data Protection Act gives you the right to confirm whether we process your personal data and to access it; to delete personal data you gave us; to get a portable copy of data you gave us; and to opt out of the sale of personal data. To make a request, email {{business.privacy_email}} or call {{business.phone}}. We respond within 90 days, and may extend once by 45 more days if we tell you why. If we decline your request, you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. We will reply in writing within 60 days, and if we deny your appeal we will give you a way to contact the Iowa Attorney General.

@@ -1,0 +1,3 @@
+## Oklahoma residents
+
+From January 1, 2027, if you live in Oklahoma, the Oklahoma Consumer Data Privacy Act gives you the right to confirm whether we process your personal data and to access it; to correct it; to delete it; to get a portable copy; and to opt out of targeted advertising, the sale of personal data, and certain profiling. To make a request, email {{business.privacy_email}} or call {{business.phone}}. We may need to verify your identity. If we decline your request, you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. We will tell you in writing what we decided and why within 60 days, and if we deny your appeal we will tell you how to complain to the Oklahoma Attorney General.

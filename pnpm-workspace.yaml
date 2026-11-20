@@ -1,0 +1,55 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Dependency postinstall scripts are blocked by default. Anything that genuinely
+# needs to build on install must be listed here deliberately.
+allowBuilds:
+  # ssh2 (Build B) runs in plain JavaScript without its native speed-ups.
+  cpu-features: false
+  # esbuild's install script only unpacks the prebuilt binary for this
+  # platform. Needed to bundle the migrate and create-admin scripts.
+  esbuild: true
+  # An optional native accelerator for BullMQ's message packing. It falls
+  # back to JavaScript, so it is not worth a compiler in the image.
+  msgpackr-extract: false
+  sharp: false
+  ssh2: false
+  unrs-resolver: false
+
+# Managed by pnpm: versions allowed through its "wait before adopting a
+# brand-new release" supply-chain check. Pinned deliberately, not edited by hand.
+minimumReleaseAgeExclude:
+  - '@next/env@16.3.6'
+  - '@next/eslint-plugin-next@16.3.6'
+  - '@next/swc-darwin-arm64@16.3.6'
+  - '@next/swc-darwin-x64@16.3.6'
+  - '@next/swc-linux-arm64-gnu@16.3.6'
+  - '@next/swc-linux-arm64-musl@16.3.6'
+  - '@next/swc-linux-x64-gnu@16.3.6'
+  - '@next/swc-linux-x64-musl@16.3.6'
+  - '@next/swc-win32-arm64-msvc@16.3.6'
+  - '@next/swc-win32-x64-msvc@16.3.6'
+  - eslint-config-next@16.3.6
+  - next@16.3.6
+
+# Security overrides for transitive packages with no direct dependency to update
+# (audit finding F-003, 12 November 2026). Each line names the advisory it fixes;
+# drop a line once the package that pulls it in ships the fix itself.
+overrides:
+  # acme-client 5.4.0 (latest) pins node-forge <=1.4.2: 17+ advisories (GHSA-4642-5mcj-2rqw, GHSA-h6cr-wjv9-3cpp, GHSA-4487-j8r4-4g2f, GHSA-9wg5-mj3p-v49q, GHSA-2vgq-wchc-25w7, GHSA-6889-vf6x-f3g5 and others).
+  "node-forge@<1.4.3": "^1.4.3"
+  # acme-client > axios > follow-redirects 1.16.0-1.16.1 (high).
+  "follow-redirects@<1.16.2": "^1.16.2"
+  # astro > unifont > undici 8.x below 8.12.2 (8 advisories, high and moderate).
+  "undici@>=8.0.0 <8.12.2": "^8.12.2"
+  # astro > sharp below 0.35.5 (high).
+  "sharp@<0.35.5": "^0.35.5"
+  # zod below 4.6.6 under better-auth/better-call (high).
+  "zod@<4.6.6": "^4.6.6"
+  # postcss > source-map-js below 1.2.2 (high).
+  "source-map-js@<1.2.2": "^1.2.2"
+  # drizzle-kit > @esbuild-kit/core-utils > esbuild <=0.24.2 (moderate).
+  "esbuild@<=0.24.2": "^0.25.0"
+  # better-auth > vitest > @vitest/mocker below 5.0.3 (moderate).
+  "@vitest/mocker@<5.0.3": "^5.0.3"

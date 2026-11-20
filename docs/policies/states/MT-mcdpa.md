@@ -1,0 +1,3 @@
+## Montana residents
+
+If you live in Montana, the Montana Consumer Data Privacy Act gives you the right to confirm whether we process your personal data and to access it; to correct it; to delete it; to get a portable copy; and to opt out of targeted advertising, the sale of personal data, and certain profiling. To make a request, email {{business.privacy_email}} or call {{business.phone}}. We respond within 45 days, and may extend by 45 more days if we tell you why. If we decline your request, you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. We will reply in writing within 60 days, and if we deny your appeal we will give you a way to contact the Montana Attorney General.

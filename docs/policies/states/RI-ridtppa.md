@@ -1,0 +1,3 @@
+## Rhode Island residents
+
+If you live in Rhode Island, the Rhode Island Data Transparency and Privacy Protection Act gives you the right to confirm whether we process your personal data and to access it; to correct it; to delete it; to get a portable copy; and to opt out of targeted advertising, the sale of personal data, and certain profiling. {{business.legal_name}} does not sell personal data for money; the categories of personal data we collect and who receives it are listed above in this policy. To make a request, email {{business.privacy_email}} or call {{business.phone}}. If we decline your request, you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. You can also contact the Rhode Island Attorney General.

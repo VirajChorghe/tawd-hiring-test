@@ -1,0 +1,1 @@
+ALTER TABLE "client_decision" ADD COLUMN "logo_approved" boolean;

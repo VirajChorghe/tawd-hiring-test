@@ -1,0 +1,59 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+# Build output only. A bare "build/" also hid the app's Build page and its
+# components (src/app/(app)/projects/[id]/build, src/components/build).
+/build/
+apps/*/build/
+packages/*/build/
+
+# bundled operational scripts, rebuilt on every build
+apps/web/dist-scripts/
+
+# testing
+coverage/
+
+# secrets - real values live only in Coolify environment variables
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# editors and os
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# typescript
+*.tsbuildinfo
+
+# Hand-delivered archives are unpacked into the repo, never committed as an
+# archive. The design reference lives in docs/design/reference/.
+*.zip
+*.7z
+*.rar
+_incoming/
+tawd_incoming/
+
+# Written by `next dev` for coding agents; never committed. (next-env.d.ts is
+# tracked and also rewritten by `next dev`: restore it after each local run.)
+apps/web/AGENTS.md
+apps/web/CLAUDE.md
+
+# Claude Code memory, copied in for the laptop move (never committed)
+claude-memory-backup/
+
+# Python bytecode from the pinned skills scripts (local only)
+__pycache__/
+
+# hiring test output
+out/
+apps/worker/dist-repro/

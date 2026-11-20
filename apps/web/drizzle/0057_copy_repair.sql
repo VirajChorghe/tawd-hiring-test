@@ -1,0 +1,1 @@
+ALTER TABLE "design_copy" ADD COLUMN "repair_of" uuid;

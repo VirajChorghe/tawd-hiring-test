@@ -1,0 +1,17 @@
+# What Semgrep skips (pnpm security): other people's code, generated files and data.
+node_modules/
+.next/
+apps/worker/dist/
+apps/web/drizzle/meta/
+docs/
+skills/
+coverage/
+*.min.js
+# Generated build artefacts, which git ignores and the GitHub check never saw: a
+# scan started inside a container cannot read this worktree's git list (its .git is
+# a file pointing outside the mount), so it walks the filesystem instead and would
+# otherwise read files that are not the repo's code at all. On 11 November 2026 a
+# tsconfig.tsbuildinfo - a list of TypeScript's own library files - was reported as
+# a Facebook OAuth secret.
+*.tsbuildinfo
+.turbo/

@@ -1,0 +1,1 @@
+ALTER TABLE "site_build" ADD COLUMN "options" jsonb;

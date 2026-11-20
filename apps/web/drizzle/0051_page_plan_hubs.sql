@@ -1,0 +1,1 @@
+ALTER TABLE "page_plan_page" ADD COLUMN "parent_slug" text;

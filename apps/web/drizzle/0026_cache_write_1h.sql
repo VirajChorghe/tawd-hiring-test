@@ -1,0 +1,1 @@
+ALTER TABLE "ai_call" ADD COLUMN "cache_write_1h_tokens" bigint DEFAULT 0 NOT NULL;

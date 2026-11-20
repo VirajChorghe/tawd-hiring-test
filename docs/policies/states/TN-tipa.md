@@ -1,0 +1,3 @@
+## Tennessee residents
+
+If you live in Tennessee, the Tennessee Information Protection Act gives you the right to confirm whether we process your personal information and to access it; to correct it; to delete it; to get a portable copy; and to opt out of targeted advertising, profiling, and the sale of personal information. To make a request, email {{business.privacy_email}} or call {{business.phone}}. We respond within 45 days. If we deny your request we will explain why, and you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. We will reply to your appeal in writing.

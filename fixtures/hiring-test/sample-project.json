@@ -1,0 +1,12 @@
+{
+  "clientName": "Sample Plumbing Co.",
+  "trade": "plumbing",
+  "phoneAsSupplied": "530-227-2479",
+  "pagePlan": [
+    { "name": "Home", "kind": "home", "slug": "" },
+    { "name": "About", "kind": "about", "slug": "about" },
+    { "name": "Contact", "kind": "contact", "slug": "contact" }
+  ],
+  "suppliedHomepage": "supplied-home.html",
+  "note": "Fictional business and phone number. The supplied homepage is the page the client approved; TAWD keeps it as supplied."
+}

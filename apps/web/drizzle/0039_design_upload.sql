@@ -1,0 +1,1 @@
+ALTER TABLE "figma_design" ADD COLUMN "source" text DEFAULT 'figma' NOT NULL;

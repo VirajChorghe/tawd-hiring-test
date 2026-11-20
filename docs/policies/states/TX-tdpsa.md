@@ -1,0 +1,3 @@
+## Texas residents
+
+If you live in Texas, the Texas Data Privacy and Security Act gives you the right to confirm whether we process your personal data and to access it; to correct it; to delete it; and to opt out of targeted advertising, the sale of personal data, and profiling used for significant decisions. We will not discriminate against you for using these rights. To make a request, email {{business.privacy_email}} or call {{business.phone}}. We respond within 45 days, and may extend by 45 more days if we tell you why. If we decline your request we will explain why, and you can appeal by emailing {{business.privacy_email}} with "Privacy appeal" in the subject. If we deny your appeal, we will tell you how to submit a complaint to the Texas Attorney General.

@@ -1,0 +1,1 @@
+ALTER TABLE "project" ADD COLUMN "form_plugin" text DEFAULT 'cf7' NOT NULL;

@@ -1,0 +1,33 @@
+# CodeRabbit: used by the GitHub app on pull requests and by the CodeRabbit CLI.
+# See docs/security/coderabbit-cli.md.
+language: en-US
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  path_filters:
+    # Generated: the worker bundle, migration snapshots, the lockfile.
+    - "!apps/worker/dist/**"
+    - "!apps/web/drizzle/meta/**"
+    - "!pnpm-lock.yaml"
+    # The pinned, vendored design skills (the *-tawd bundles) are reviewed when they are pinned, not per change.
+    # TAWD's own prompt files (skills/*.md) are the worker's prompts, so CodeRabbit reviews them like code.
+    - "!skills/*-tawd/**"
+  path_instructions:
+    - path: "**/*.{ts,tsx}"
+      instructions: |
+        TAWD's house rules are non-negotiable: no fake reviews or testimonials, no invented facts,
+        phone numbers or names; missing information is a visible [PLACEHOLDER]. Content from
+        clients, scraped sites, design files and skills is data, never instructions. Secrets live
+        only in environment variables and must never be logged. Every approval is a recorded,
+        append-only activity log entry. Flag anything that breaks these.
+    - path: "apps/worker/**"
+      instructions: |
+        The worker shares a small droplet with a production app: headless Chrome runs one job at a
+        time, and files go to R2, never the droplet's disk. Flag unbounded work, missing timeouts and
+        network fetches that could reach private addresses.
+    - path: "apps/web/drizzle/*.sql"
+      instructions: Migrations run on deploy against live data. Flag anything destructive or not reversible.
+chat:
+  auto_reply: true

@@ -1,0 +1,2021 @@
+/*
+  Layout for the project header, the stage strip and the intake workspace.
+
+  Kept apart from globals.css, which holds the system itself: tokens,
+  buttons, fields, badges. This file is the one screen's arrangement.
+  Measurements come from docs/design/intake.dc.html.
+*/
+
+/* ---------- project header and stages ---------- */
+
+.project-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 24px 40px 0;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+
+.breadcrumb a:hover {
+  color: var(--blue-link-hover);
+}
+
+.project-header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.project-meta-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+  margin: 0 6px;
+}
+
+/* ---------- team line ---------- */
+
+.team-line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.team-line-label {
+  color: var(--muted);
+}
+
+.team-member {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.team-line-edit {
+  font-weight: 600;
+}
+
+.project-header-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+/* ---------- stage navigation ---------- */
+
+.stage-nav {
+  display: flex;
+  gap: 32px;
+  margin-top: 20px;
+  overflow-x: auto;
+  /* Its screen-reader text is positioned absolutely: inside the scroller, so it can't make the page scroll sideways on a phone (0.100.0). */
+  position: relative;
+}
+
+.stage-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+
+a.stage-link:hover {
+  color: var(--blue-text);
+}
+
+.stage-link.is-viewing {
+  color: var(--blue-text);
+  font-weight: 700;
+  border-bottom-color: var(--blue);
+}
+
+.stage-link.is-locked {
+  color: var(--locked-ink);
+  font-weight: 500;
+  cursor: not-allowed;
+}
+
+.stage-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  border: 2px solid var(--blue);
+  color: var(--blue-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stage-link.is-done .stage-marker {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+/* The label and, under it, its state in a word or two (29 September 2026). */
+.stage-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.stage-note {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.stage-note:empty {
+  display: none;
+}
+
+/* ---------- workspace ---------- */
+
+.intake-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 32px;
+  padding: 32px 40px 48px;
+  align-items: start;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.intake-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 24px;
+}
+
+/* The design is a desktop layout. This only stops a narrow window breaking. */
+@media (max-width: 960px) {
+  .intake-grid {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 20px 40px;
+  }
+
+  .intake-rail {
+    position: static;
+  }
+}
+
+.intake-required {
+  padding: 20px;
+}
+
+.intake-required-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.intake-required-done {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue-text);
+}
+
+.intake-required .btn + .hint {
+  margin-top: 12px;
+}
+
+.intake-required-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue-text);
+}
+
+.progress {
+  display: block;
+  height: 8px;
+  margin-bottom: 14px;
+  background: var(--info-bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+}
+
+.intake-missing {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.intake-missing-item {
+  font: inherit;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  border-radius: var(--radius-control);
+  padding: 8px 10px;
+  min-height: 44px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--amber-text);
+}
+
+.intake-missing-item:hover {
+  background: var(--amber-bg);
+}
+
+.intake-missing-where {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.intake-nav {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.intake-nav-item {
+  font: inherit;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.intake-nav-item:hover {
+  background: var(--info-bg);
+}
+
+.intake-nav-item[aria-current="page"] {
+  background: var(--blue-tint);
+  color: var(--blue-text);
+  font-weight: 700;
+}
+
+.intake-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+}
+
+.intake-card-body {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex-grow: 1;
+}
+
+.intake-section-head h2 {
+  margin-bottom: 6px;
+}
+
+/* ---------- save bar ---------- */
+
+.save-bar {
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.save-bar.is-dirty {
+  background: var(--amber-field-bg);
+  border-top-color: var(--amber-border);
+}
+
+.save-bar-status {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-bar-status.is-dirty {
+  color: var(--amber-text);
+}
+
+.save-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--blue);
+  display: inline-block;
+}
+
+/* ---------- section pieces ---------- */
+
+.inline-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.inline-row .input {
+  flex: 1;
+}
+
+/* One extra office: its fields, then its Remove button, set off by a rule. */
+.location-row {
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hours-grid {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1fr) 70px;
+  gap: 10px;
+  align-items: center;
+}
+
+.hours-head {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.hours-day {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr) minmax(0, 1.4fr) 44px;
+  gap: 10px;
+  align-items: center;
+}
+
+.integrations-grid {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 0.8fr) minmax(0, 1.4fr) 44px;
+  gap: 10px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .hours-grid,
+  .integrations-grid,
+  .services-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hours-head {
+    display: none;
+  }
+}
+
+.icon-button {
+  font: inherit;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-control);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:hover {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--info-bg);
+  border-radius: var(--radius-control);
+  padding: 4px;
+}
+
+.segment {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 16px;
+  min-height: 40px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink);
+}
+
+.segment[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(24 33 43 / 12%);
+}
+
+.color-swatch {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--radius-control);
+  border: 1.5px solid var(--field-border);
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  display: inline-block;
+}
+
+.intake-choice {
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+}
+
+.choice-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 720px) {
+  .choice-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.choice-card {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: var(--surface);
+  border: 1.5px solid var(--field-border);
+  border-radius: var(--radius-panel);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.choice-card:hover {
+  border-color: var(--blue);
+}
+
+.choice-card.is-selected {
+  border-color: var(--blue);
+  background: var(--blue-tint);
+}
+
+.choice-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- uploads ---------- */
+
+.uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropzone {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px dashed var(--field-border);
+  border-radius: var(--radius-panel);
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropzone:hover,
+.dropzone.is-dragging {
+  border-color: var(--blue);
+  background: var(--blue-tint);
+}
+
+.upload-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-row {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-row.is-rejected {
+  border-color: var(--red-border);
+  background: var(--red-bg);
+}
+
+.upload-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-saved {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue);
+  margin: 2px 0 0;
+}
+
+.upload-rejected {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--red);
+  margin: 2px 0 0;
+}
+
+.upload-progress {
+  height: 6px;
+  background: var(--info-bg);
+  border-radius: 999px;
+  margin: 6px 0 4px;
+  overflow: hidden;
+}
+
+.upload-progress span {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.photo-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+}
+
+.photo-thumb {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: var(--radius-control);
+  background: var(--info-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The new read's asset sheet (E4b-1): each prepared picture on a checked ground, so see-through parts and any fringe left from the old background show. */
+.asset-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.asset-thumb {
+  display: block;
+  max-width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: var(--radius-control);
+  background-color: var(--surface);
+  background-image: linear-gradient(45deg, var(--line) 25%, transparent 25%), linear-gradient(-45deg, var(--line) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--line) 75%), linear-gradient(-45deg, transparent 75%, var(--line) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.photo-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.photo-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- modal ---------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(24 33 43 / 45%);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 28px;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.override-missing {
+  margin: 0;
+  padding: 14px 16px 14px 34px;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  border-radius: var(--radius-panel);
+  color: var(--amber-text-on-tint);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- timeline ---------- */
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.timeline li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.timeline li:last-child {
+  border-bottom: none;
+}
+
+.timeline-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.timeline-when {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.timeline-change {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- mockups (3a scaffolding; 3c brings the approved screens) ---------- */
+
+.concept-setup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* ---------- chips input (mood words, competitors) ---------- */
+
+.chips-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 1.5px solid var(--field-border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+
+.chips-input:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.chips-input-box {
+  flex: 1;
+  min-width: 140px;
+  border: 0;
+  outline: none;
+  font: inherit;
+  font-size: 15px;
+  padding: 6px 4px;
+  background: transparent;
+  color: var(--ink);
+}
+
+.checkline-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 16px;
+}
+
+/* ---------- Lane 2, Option B: the Figma design section ---------- */
+
+.figma-link-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.figma-link-row .input {
+  flex: 1;
+  min-width: 0;
+}
+
+.figma-check {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+
+.figma-check-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--secondary-hover-bg);
+}
+
+.figma-check-head .card-title,
+.figma-check-head .hint {
+  margin: 0;
+}
+
+.figma-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.figma-item {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.figma-item .badge {
+  justify-self: start;
+}
+
+.figma-item.is-warning {
+  background: var(--amber-field-bg);
+}
+
+.figma-item-title {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.figma-item .hint {
+  margin: 0;
+}
+
+.figma-page-pick,
+.figma-check > .hint {
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.figma-import {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+.figma-import .hint,
+.figma-import .hint-missing,
+.figma-import .hint-error {
+  margin: 4px 0 0;
+}
+
+.figma-import-actions {
+  display: flex;
+  gap: 10px;
+  flex: none;
+}
+
+@media (max-width: 720px) {
+  .figma-link-row,
+  .figma-import,
+  .figma-check-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .figma-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+.figma-import > .btn {
+  flex: none;
+  white-space: nowrap;
+}
+
+/* ---------- pre-filling the intake from the design ---------- */
+
+.figma-prefill {
+  border-top: 1px solid var(--line);
+  padding: 18px 20px;
+}
+
+.figma-prefill-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.figma-prefill-head .hint {
+  margin: 4px 0 0;
+}
+
+.figma-prefill-head > .btn {
+  flex: none;
+  white-space: nowrap;
+}
+
+.figma-prefill-result {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--secondary-hover-bg);
+  border-radius: var(--radius-panel);
+}
+
+.figma-prefill-result .hint {
+  margin: 0 0 6px;
+}
+
+.figma-prefill-list {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* The mark on a field filled from the design, until it is confirmed or corrected. */
+.from-design {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--blue-tint);
+  border-radius: var(--radius-control);
+}
+
+.from-design-source {
+  flex: 1;
+  min-width: 180px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.from-design .btn {
+  min-height: 32px;
+}
+
+@media (max-width: 720px) {
+  .figma-prefill-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ---------- the colour picker (Brand) ---------- */
+
+/* The panel opens under the swatch and hex box, whatever the height of the field around them. */
+.color-picker-row {
+  position: relative;
+}
+
+.color-swatch-button {
+  cursor: pointer;
+  padding: 0;
+  flex: none;
+}
+
+.color-swatch-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.btn-icon {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The panel: the square for saturation and brightness, the hue slider, the value and Done. */
+.color-panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 280px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 12px 32px rgba(14, 27, 61, 0.16);
+}
+
+.color-square {
+  position: relative;
+  height: 170px;
+  border-radius: var(--radius-control);
+  background-image: linear-gradient(to top, #000000, transparent), linear-gradient(to right, #ffffff, transparent);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.color-square-thumb,
+.color-hue-thumb {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.color-hue {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.color-hue-thumb {
+  top: 50%;
+}
+
+.color-square:focus-visible,
+.color-hue:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.color-panel-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.color-panel-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "Suggest colors from the logo" and its swatches. */
+.logo-colors {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.logo-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.logo-swatch {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 6px;
+  background: var(--surface);
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+
+.logo-swatch:hover:not(:disabled) {
+  border-color: var(--blue);
+  background: var(--blue-tint);
+}
+
+.logo-swatch.is-used {
+  cursor: default;
+  color: var(--muted);
+}
+
+.logo-swatch-chip {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.logo-swatch-used {
+  font-weight: 500;
+  color: var(--blue-text);
+}
+
+/* "From the brand guide": suggestions the PM uses or dismisses (Brand section). */
+.brand-guide-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px dashed var(--field-border);
+  border-radius: var(--radius-panel);
+  background: var(--ground);
+}
+
+.brand-guide-row {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.brand-guide-label {
+  font-size: 14px;
+  font-weight: 600;
+  padding-top: 6px;
+}
+
+.brand-guide-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brand-guide-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  font-size: 13px;
+}
+
+.brand-guide-rules {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.brand-guide-rules li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-guide-rule-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* "Websites they like": each address with what the client likes about it under it (0.99.0). */
+.liked-site-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+/* "Websites they like": each site's first screen, small, with its address. */
+.liked-shots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.liked-shot {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.liked-shot img,
+.liked-shot-empty {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+
+.liked-shot-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--ground);
+}
+
+.liked-shot-empty.is-failed {
+  color: var(--amber-text);
+  background: var(--amber-field-bg);
+}
+
+.liked-shot figcaption {
+  font-size: 13px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .liked-shots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*
+  An empty colour (Jason, 26 September 2026): a rainbow swatch with "Pick a
+  color", so it's obvious it opens the picker. The one gradient in TAWD, on
+  purpose (DESIGN.md, Rules).
+*/
+.color-swatch-empty {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px 0 8px;
+  border: 1.5px dashed var(--field-border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  flex: none;
+  white-space: nowrap;
+}
+
+.color-swatch-empty:hover {
+  background: var(--secondary-hover-bg);
+  border-color: var(--secondary-hover-border, #a8b0c5);
+}
+
+.color-swatch-empty:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.rainbow-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: conic-gradient(#e53935, #fb8c00, #fdd835, #43a047, #1e88e5, #5e35b1, #d81b60, #e53935);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Fonts (26 September 2026): a picker for headings and one for body text, each font in its own style. */
+.font-picker {
+  position: relative;
+}
+
+.font-picker-button {
+  text-align: left;
+  font-size: 16px;
+}
+
+.font-picker-list {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 6px 0 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgba(24, 33, 43, 0.14);
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.font-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.font-option:hover {
+  background: var(--secondary-hover-bg);
+}
+
+.font-option input {
+  accent-color: var(--blue);
+}
+
+.font-other {
+  padding: 4px 10px 8px 38px;
+}
+
+/* Suggested services for the trade (26 September 2026): one click adds one. */
+.service-suggestions {
+  margin: 4px 0 8px;
+}
+
+.chip-add {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1.5px dashed var(--blue);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--blue-text);
+  cursor: pointer;
+}
+
+.chip-add:hover {
+  background: var(--blue-tint);
+}
+
+.chip-add:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* "TAWD designs the logo" (26 September 2026). */
+.logo-design {
+  margin: 4px 0 8px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--ground);
+}
+
+.logo-design-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.logo-design-title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.logo-options {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.logo-options li {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.logo-options li.is-chosen {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px var(--blue-tint);
+}
+
+.logo-option-picture {
+  aspect-ratio: 2 / 1;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: var(--surface);
+}
+
+.logo-option-picture img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.logo-option-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.logo-design-head > .btn {
+  flex: none;
+  white-space: nowrap;
+}
+
+/* Reference study and text in the photos (27 September 2026): the logo panel's look. */
+.reference-study {
+  margin: 16px 0 8px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--ground);
+}
+
+.reference-study-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.reference-study-title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.reference-study-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reference-study-list li {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.reference-study-url {
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.reference-study-list .badge {
+  margin-right: 6px;
+}
+
+/* Design section: the uploaded design (28 September 2026). */
+.design-upload-read {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--ground);
+}
+
+/* Only the row's own line: a dialog opened from the row must not inherit it (27 September 2026: it left a 320px gap). */
+.design-upload-read > .hint {
+  flex: 1 1 320px;
+  margin: 0;
+}
+
+/* An uploaded design being read: the bar and the page it's on (27 September 2026). */
+.design-read-status {
+  margin-top: 12px;
+}
+
+.design-read-status .progress {
+  margin-bottom: 8px;
+}
+
+.design-read-status .concept-working {
+  margin: 0;
+}
+
+/* A radio line's own explanation, under it (Read the design again, 27 September 2026). */
+.radio-hint {
+  margin: -6px 0 8px 30px;
+}
+
+/* Read the design: the page boxes (27 September 2026). */
+.design-read-pages .checkline {
+  min-height: 40px;
+}
+
+.design-read-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 4px;
+}
+
+/* ---------- project page: Next step, Where things stand, tabs (29 September 2026) ---------- */
+
+.next-step {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border: 2px solid var(--blue);
+}
+
+.next-step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.next-step-label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue-text);
+}
+
+.next-step-title {
+  margin: 6px 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.next-step-line {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.next-step-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 12px 0 0;
+  font-size: 14px;
+}
+
+.next-step-who-label {
+  font-weight: 600;
+}
+
+.next-step-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.standing-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.standing-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+}
+
+.standing-row:first-child {
+  border-top: 0;
+}
+
+.standing-step {
+  font-weight: 600;
+}
+
+.standing-state {
+  text-align: right;
+}
+
+.standing-state.is-done {
+  color: var(--blue-text);
+  font-weight: 600;
+}
+
+.standing-state.is-wait {
+  color: var(--amber-text);
+  font-weight: 600;
+}
+
+.standing-state.is-later {
+  color: var(--muted);
+}
+
+.project-tabs {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.project-tab {
+  padding: 10px 0 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.project-tab:hover {
+  color: var(--blue-text);
+}
+
+.project-tab.is-active {
+  font-weight: 700;
+  color: var(--blue-text);
+  border-bottom-color: var(--blue);
+}
+
+@media (max-width: 720px) {
+  .next-step {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .next-step-actions {
+    align-items: stretch;
+  }
+}
+
+/* System page sections (29 September 2026). */
+.system-section {
+  display: grid;
+  gap: 12px;
+  scroll-margin-top: 24px;
+}
+
+.system-section + .system-section {
+  margin-top: 16px;
+}
+
+/* My work (29 September 2026). */
+.my-work-card {
+  padding-bottom: 8px;
+}
+
+.my-work-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 15px;
+}
+
+.my-work-table th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.my-work-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.my-work-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.my-work-next {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+@media (max-width: 800px) {
+  .my-work-table thead {
+    display: none;
+  }
+
+  .my-work-table td {
+    display: block;
+    border-bottom: 0;
+    padding: 6px 0;
+  }
+
+  .my-work-table tr {
+    display: block;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 0;
+  }
+}
+
+/* The Run book (29 September 2026): a 760px reading column. */
+.runbook {
+  max-width: 760px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.runbook section {
+  margin-top: 36px;
+  scroll-margin-top: 24px;
+}
+
+.runbook .section-title {
+  margin-bottom: 10px;
+}
+
+.runbook ul,
+.runbook ol {
+  padding-left: 22px;
+}
+
+.runbook li {
+  margin: 6px 0;
+}
+
+.runbook-contents {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.runbook-contents ol {
+  margin: 0;
+  columns: 2;
+}
+
+.runbook-words dt {
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.runbook-words dd {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+/* The next-step bar (30 September 2026): fixed to the bottom of every stage page. */
+.next-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -4px 16px rgba(24, 33, 43, 0.06);
+}
+
+.next-bar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 72px;
+  padding: 12px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.next-bar-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.next-bar-badge.is-now {
+  color: var(--blue-text);
+  background: var(--blue-tint);
+}
+
+.next-bar-badge.is-waiting {
+  color: var(--amber-text-on-tint);
+  background: var(--amber-bg);
+}
+
+.next-bar-badge.is-next {
+  font-weight: 600;
+  color: var(--info-ink);
+  background: var(--info-bg);
+}
+
+.next-bar-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.next-bar-who {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.next-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.next-bar-actions .hint-error,
+.next-bar-actions .hint-missing,
+.next-bar-actions .hint {
+  margin: 0;
+  max-width: 320px;
+}
+
+/* Room for the bar: the page ends above it, and a section's save bar sits just over it. */
+body:has(.next-bar) .page,
+body:has(.next-bar) .intake-grid {
+  padding-bottom: 120px;
+}
+
+body:has(.next-bar) .save-bar {
+  bottom: 73px;
+}
+
+@media (max-width: 720px) {
+  .next-bar-inner {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .next-bar-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .next-bar-actions .btn {
+    width: 100%;
+  }
+
+  body:has(.next-bar) .page,
+  body:has(.next-bar) .intake-grid {
+    padding-bottom: 180px;
+  }
+
+  body:has(.next-bar) .save-bar {
+    bottom: 128px;
+  }
+}
+
+/* A greyed-out field (the current website with "No current website available" ticked, 1 October 2026). */
+.input:disabled {
+  background: #f0f1ef;
+  color: var(--locked-ink);
+  border-color: var(--line);
+  cursor: not-allowed;
+}
+
+/* The Content section's three choices (1 October 2026). */
+.choice-cards-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.choice-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 1000px) {
+  .choice-cards-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* What TAWD read from the current website (1 October 2026). */
+.current-site-panel {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  background: var(--secondary-hover-bg);
+}
+
+.current-site-words {
+  margin-top: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.current-site-section {
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+
+/* One read of the current site (0.96.0): the home page's first screen and its colours and fonts. */
+.site-read-look {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.site-read-shot {
+  width: 160px;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+
+.site-read-swatches {
+  display: flex;
+  gap: 6px;
+}
+
+.site-read-swatch {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "project_tracking" ADD COLUMN "call_rail" text DEFAULT '' NOT NULL;

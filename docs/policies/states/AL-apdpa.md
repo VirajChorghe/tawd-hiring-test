@@ -1,0 +1,3 @@
+## Alabama residents
+
+From May 1, 2027, if you live in Alabama and the Alabama Personal Data Protection Act applies to us, you have the right to confirm whether we process your personal data and to access it; to correct it; to delete it; to get a portable copy; and to opt out of targeted advertising, the sale of personal data, and profiling for solely automated significant decisions. We treat a Global Privacy Control signal as a request to opt out. To make a request or opt out, email {{business.privacy_email}} or call {{business.phone}}[[IF tracking.any]], or use **Cookie settings** at the bottom of every page[[END]].

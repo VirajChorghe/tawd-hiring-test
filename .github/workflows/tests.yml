@@ -1,0 +1,144 @@
+# TAWD's checks on every pull request (Jason, 30 September 2026; pull-request-only since 7 November 2026):
+# the type check, lint and the full test suite, plus Semgrep (pnpm security), on GitHub's machines instead of the laptop.
+# Since 4 November 2026 pull requests also build the web and worker Docker images (image-web, image-worker).
+# It reports only: Coolify deploys on push to main either way.
+# The tests that open a real Chrome look for it at its Windows path, so they skip here and run locally.
+name: Tests
+
+on:
+  # Local-only CI since 7 November 2026 (Jason): checks run on the laptop before every push
+  # (pnpm preflight: install, typecheck, lint, test, Semgrep, and both Docker image builds), so
+  # GitHub Actions spends no minutes. This workflow no longer runs on push or pull_request; it is
+  # kept, and runnable by hand from the Actions tab (workflow_dispatch), in case we ever want it
+  # back. The required-status-check gate on main was removed to match; CodeRabbit and the PR flow
+  # (and Jason's "merge it") are unchanged.
+  workflow_dispatch:
+
+# A newer push to the same branch stops the older run.
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Does this change touch anything that can change what TAWD does? It fails closed: an
+  # unreadable diff, an empty list or a failed job all mean "yes", and test and security run.
+  # Only files nothing reads are skipped: docs/ (except docs/policies/, which the tests compare
+  # with the code) and three root notes. Every other .md counts as code: the worker reads
+  # skills/**/*.md as its prompts, and a test reads the root README.md.
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - id: diff
+        run: |
+          code=true
+          # A run started by hand (workflow_dispatch, how batches are checked on GitHub since 13 November
+          # 2026) checks everything: HEAD^1 is then only the branch's previous commit, so a docs-only last
+          # commit would otherwise skip the whole check while the branch changes code.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "code=true" | tee -a "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # HEAD is the pull request merged onto main (or the pushed commit); HEAD^1 is main before it.
+          if files=$(git diff --name-only --no-renames HEAD^1 HEAD) && [ -n "$files" ]; then
+            if ! printf '%s\n' "$files" | grep -vE '^docs/' | grep -vxE 'CLAUDE\.md|memory\.md|DESIGN\.md' | grep -q . \
+               && ! printf '%s\n' "$files" | grep -qE '^docs/policies/'; then
+              code=false
+            fi
+          fi
+          printf '%s\n' "$files"
+          echo "code=$code" | tee -a "$GITHUB_OUTPUT"
+
+  test:
+    needs: changes
+    # Runs unless the change is docs-only. If "changes" failed, its output is empty, so this still runs.
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The pull request's code runs here; it gets no saved GitHub token (CodeRabbit, PR #1).
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+        env:
+          # Kept at 2. Four workers passed locally (~12 min) but on GitHub's 16 GB runner the suite
+          # thrashed and hit the 60-min job timeout — four concurrent WASM Postgres instances are too
+          # much there. A safe bump would need a per-worker memory fix first, not just a higher count.
+          # 7 November 2026.
+          TAWD_TEST_WORKERS: "2"
+          # The private-address redirect test (batch C) is never skipped, so it gets GitHub's own
+          # Chrome (preinstalled on ubuntu-latest). Only that test reads this; the other Chrome tests
+          # still skip here and run on the laptop beside a GitHub check (13 November 2026).
+          TAWD_TEST_CHROME: /usr/bin/google-chrome
+
+  # Semgrep over TAWD's own code (Jason, 12 October 2026): the same pnpm security run as on the laptop,
+  # pinned to the same version, free rule packs, no account and no telemetry. Fails on any finding.
+  security:
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The pull request's code runs here; it gets no saved GitHub token (CodeRabbit, PR #1).
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          # Cache pip's downloads, keyed on this workflow (which pins the Semgrep version), so the
+          # wheel isn't fetched every run. The key changes when the pinned version does. 7 November 2026.
+          cache: pip
+          cache-dependency-path: .github/workflows/tests.yml
+      # No setup-node here: scripts/semgrep.mjs only spawns the semgrep binary (node:child_process),
+      # needing no node_modules, so the runner's preinstalled Node runs it. 7 November 2026.
+      - run: pip install semgrep==1.178.0
+      - run: node scripts/semgrep.mjs
+
+  # The two production images, built exactly as Coolify builds them (Jason, 4 November 2026).
+  # 0.121.0 passed every check above, then its worker image failed to build in Coolify
+  # (deployment 457: the build read a file the Dockerfile never copied), so web and worker ran
+  # different versions for an hour. A broken image now fails the pull request instead of the deploy.
+  # Built only, never pushed anywhere, no secrets: neither Dockerfile takes build arguments
+  # beyond the Node and pnpm versions. Pull requests only; on main, Coolify builds them anyway.
+  # Two separate jobs, not a matrix: a skipped matrix job reports under a different name, and a
+  # required check that never reports leaves a docs-only pull request blocked for good.
+  image-web:
+    needs: changes
+    if: ${{ !cancelled() && github.event_name == 'pull_request' && needs.changes.outputs.code != 'false' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: docker build --file Dockerfile --tag tawd-web:check .
+
+  image-worker:
+    needs: changes
+    if: ${{ !cancelled() && github.event_name == 'pull_request' && needs.changes.outputs.code != 'false' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: docker build --file Dockerfile.worker --tag tawd-worker:check .

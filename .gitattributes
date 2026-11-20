@@ -1,0 +1,15 @@
+# The build server and the production container are Linux. Windows checkouts
+# must not introduce CRLF line endings: they break shell scripts and can break
+# the Dockerfile during a Coolify build.
+* text=auto eol=lf
+
+# Binary files: never touch line endings.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+*.zip binary

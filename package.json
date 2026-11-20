@@ -1,0 +1,22 @@
+{
+  "name": "tawd",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TAWD (Total Agentic Web Developer) - VML's agentic website builder",
+  "packageManager": "pnpm@12.5.1",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @tawd/web dev",
+    "build": "pnpm --filter @tawd/web build",
+    "start": "pnpm --filter @tawd/web start",
+    "test": "pnpm -r --workspace-concurrency=1 test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "canary": "pnpm --filter @tawd/worker exec vitest run src/canary-run.test.ts",
+    "security": "node scripts/semgrep.mjs",
+    "preflight": "node scripts/preflight.mjs",
+    "repro:bug1": "pnpm --filter @tawd/worker repro:bug1"
+  }
+}

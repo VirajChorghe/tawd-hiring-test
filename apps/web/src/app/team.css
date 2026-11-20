@@ -1,0 +1,322 @@
+/*
+  The Team page, its edit side panel and its add dialog.
+  Measurements from docs/design/reference/cleanup/team*.html.
+*/
+
+.team-head {
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.page-lede {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.team-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  position: relative;
+  flex: 0 1 360px;
+  min-width: 220px;
+}
+
+.search-field svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-field .input {
+  padding-left: 38px;
+}
+
+.table-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  overflow-x: auto;
+}
+
+.table-card table {
+  border: 0;
+  border-radius: 0;
+}
+
+.team-table th {
+  background: var(--secondary-hover-bg);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.team-table td {
+  vertical-align: middle;
+}
+
+.team-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.person-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.person-email {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.role-chip {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue-text);
+  background: var(--blue-tint);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.status.is-on {
+  color: var(--blue-text);
+}
+
+.status.is-off {
+  color: var(--muted);
+}
+
+/* ---------- edit side panel ---------- */
+
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(24 33 43 / 45%);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.side-panel {
+  width: 480px;
+  max-width: 100%;
+  height: 100%;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -12px 0 32px rgb(24 33 43 / 18%);
+}
+
+.side-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.side-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.side-panel-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 28px;
+  border-top: 1px solid var(--line);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--blue-text);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--blue-tint);
+}
+
+.panel-box {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 16px;
+}
+
+.panel-box-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.panel-box .card-title {
+  margin: 0 0 2px;
+}
+
+.check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.check-label input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--blue);
+}
+
+/* ---------- roles, notes, passwords ---------- */
+
+.role-picker {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.role-picker legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.role-toggle {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--field-border);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.role-toggle:hover {
+  border-color: var(--secondary-hover-border);
+  background: var(--secondary-hover-bg);
+}
+
+.role-toggle[aria-pressed="true"] {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #ffffff;
+}
+
+.note-box {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--secondary-hover-bg);
+  border-radius: var(--radius-control);
+}
+
+.secret-box {
+  padding: 14px 16px;
+  border: 1px solid var(--blue);
+  background: var(--blue-tint);
+  border-radius: var(--radius-panel);
+}
+
+.secret-value {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 6px 10px;
+  background: var(--surface);
+  border-radius: 6px;
+  user-select: all;
+  overflow-wrap: anywhere;
+}
+
+/* The danger area at the foot of the edit panel. */
+.panel-danger {
+  border-color: var(--red-border);
+}
+
+.panel-danger .card-title {
+  color: var(--red);
+}
+
+/* A confirmation opened from inside the side panel sits above it. */
+.modal-over-panel {
+  z-index: 60;
+}
+
+.empty-cell {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Team page: the Email card, under the team. */
+.email-check {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.email-check-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}

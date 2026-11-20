@@ -1,0 +1,1661 @@
+/*
+  The TAWD interface system. See DESIGN.md, which is the approved source.
+
+  The tokens below are the whole palette. If a screen needs a color that is
+  not here, the answer is almost always one of these rather than a new one.
+*/
+:root {
+  --ink: #18212b;
+  --muted: #5b6570;
+  --ground: #f4f5f2;
+  --surface: #ffffff;
+  --line: #dde1e4;
+  --field-border: #cbd2d6;
+
+  /*
+    VML blue, from Velocity Reports (resources/css/app.css in that repo), so
+    the two VML tools look like one family. It is the only accent: primary
+    actions, done states, progress, the selected section, links and focus.
+    Amber stays for missing and warnings, red for destructive actions.
+  */
+  --blue: #205af2;
+  --blue-hover: #1a4dd6;
+  --blue-text: #1a4dd6;
+  --blue-link-hover: #153fb0;
+  --blue-tint: #eaf0fe;
+  --focus-ring: #cfdcfd;
+  --blue-shadow: rgba(32, 90, 242, 0.25);
+  /* The logo's blue (DESIGN.md, Brand). In the interface only for the top progress bar (Jason, 7 October 2026). */
+  --logo-blue: #2b59ff;
+  --secondary-hover-bg: #f6f8fc;
+  --secondary-hover-border: #a8b0c5;
+
+  --amber-bg: #fff4dd;
+  --amber-border: #e8c47a;
+  --amber-field-border: #c98a1b;
+  --amber-field-bg: #fffbf2;
+  --amber-text: #8a4b00;
+  --amber-text-on-tint: #6b3a00;
+
+  --red: #b42318;
+  --red-dark: #912018;
+  --red-bg: #fef3f2;
+  --red-border: #f3b8b2;
+
+  /*
+    The logo's navy, for the brand panel on Sign in and Signed out, with
+    the text colors that read on it. See DESIGN.md, Brand.
+  */
+  --navy: #0e1b3d;
+  --navy-text: #c9d4ee;
+  --navy-muted: #8fa3d1;
+
+  /* Stages not reached yet, and other things that cannot be used yet. */
+  --locked-ink: #8a939b;
+
+  --disabled-bg: #e3e6e8;
+  --disabled-ink: #6b747c;
+
+  --info-bg: #edefea;
+  --info-ink: #4b555e;
+
+  --radius-card: 12px;
+  --radius-panel: 10px;
+  --radius-control: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--ground);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--blue-text);
+}
+
+a:hover {
+  color: var(--blue-link-hover);
+}
+
+/* Focus is always visible. DESIGN.md rules. */
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  z-index: 20;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  height: 64px;
+  padding: 0 40px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  min-width: 0;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 24px;
+  height: 64px;
+  align-items: center;
+}
+
+.topbar-nav a {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+}
+
+.topbar-nav a:hover {
+  color: var(--blue-text);
+}
+
+/* The current section reads as ink with a blue underline, per the design. */
+.topbar-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--blue);
+}
+
+/* The Admin menu (29 September 2026): four groups in a panel under the bar. */
+.admin-menu {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-menu-button {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  height: 64px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.admin-menu-button:hover {
+  color: var(--blue-text);
+}
+
+.admin-menu-button[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--blue);
+}
+
+.admin-menu-panel {
+  position: absolute;
+  top: 60px;
+  left: -16px;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, auto));
+  gap: 8px 24px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(24, 33, 43, 0.12);
+}
+
+.admin-menu-heading {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.topbar-nav .admin-menu-link {
+  display: flex;
+  height: 40px;
+  padding: 0 10px;
+  margin: 0 -10px;
+  border-radius: 8px;
+  border-bottom: 0;
+  color: var(--ink);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.topbar-nav .admin-menu-link:hover {
+  background: var(--blue-tint);
+  color: var(--blue-text);
+}
+
+@media (max-width: 900px) {
+  .admin-menu-panel {
+    grid-template-columns: repeat(2, minmax(150px, auto));
+    left: auto;
+    right: -16px;
+  }
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.topbar-email {
+  font-size: 14px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The email with "Change password" under it, right-aligned by Sign out. */
+.topbar-account {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.topbar-account-link {
+  font-size: 12px;
+  color: var(--blue-text);
+  white-space: nowrap;
+}
+
+.topbar-account-link:hover {
+  color: var(--blue-link-hover);
+}
+
+/* ---------- page frame ---------- */
+
+.page {
+  padding: 32px 40px 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 28px;
+}
+
+.card + .card {
+  margin-top: 20px;
+}
+
+/* Inside a stack or a grid the gap does the spacing; a margin doubles it. */
+.stack > .card + .card,
+.concept-setup-grid > .card + .card,
+.spend-cards > .card + .card {
+  margin-top: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 32px 0;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-control);
+  padding: 10px 18px;
+  min-height: 44px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #ffffff;
+  box-shadow: 0 2px 8px var(--blue-shadow);
+}
+
+.btn-primary:hover {
+  background: var(--blue-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--field-border);
+}
+
+.btn-secondary:hover {
+  background: var(--secondary-hover-bg);
+  border-color: var(--secondary-hover-border);
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--blue);
+  padding: 10px 8px;
+}
+
+.btn-text:hover {
+  background: var(--blue-tint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-primary:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/*
+  The top progress bar (DESIGN.md, Components; 0.95.0): 3px of the logo
+  blue while the next screen loads. Solid, no glow. Above the sticky top bar
+  and menus. Drawn by components/ui/top-progress.tsx.
+*/
+.top-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 3px;
+  width: 0;
+  background: var(--logo-blue);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    width 200ms ease,
+    opacity 200ms ease;
+}
+
+.top-progress[data-phase="loading"],
+.top-progress[data-phase="finishing"] {
+  opacity: 1;
+}
+
+/* Fill, then fade (lib/progress.ts FADE_MS covers both); the reset to idle is instant and unseen. */
+.top-progress[data-phase="finishing"] {
+  opacity: 0;
+  transition:
+    width 150ms ease,
+    opacity 200ms ease 150ms;
+}
+
+.top-progress[data-phase="idle"],
+.top-progress[data-phase="waiting"] {
+  transition: none;
+}
+
+/* Reduced motion: a still, full-width line while loading, gone when done. */
+@media (prefers-reduced-motion: reduce) {
+  .top-progress {
+    transition: none;
+  }
+
+  .top-progress[data-phase="loading"] {
+    width: 100% !important;
+    opacity: 0.6;
+  }
+
+  .top-progress[data-phase="finishing"] {
+    opacity: 0;
+    transition: none;
+  }
+}
+
+/* Red is only for bypassing a rule or deleting. DESIGN.md rules. */
+.btn-danger {
+  background: var(--red);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: var(--red-dark);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: var(--disabled-bg);
+  color: var(--disabled-ink);
+  border-color: var(--disabled-bg);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.btn-small {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+/* ---------- fields ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  margin: 0;
+}
+
+/* Required is written as a word, never a lone asterisk. */
+/* Blue once answered, amber while the answer is missing. */
+.field-required {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue-text);
+}
+
+.field:has(.is-missing) .field-required {
+  color: var(--amber-text);
+}
+
+.field-optional {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.input,
+.select,
+.textarea {
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px solid var(--field-border);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  min-height: 44px;
+  width: 100%;
+}
+
+.textarea {
+  min-height: 88px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.input:focus-visible,
+.select:focus-visible,
+.textarea:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* A missing required answer turns amber and says why it matters. */
+.input.is-missing,
+.textarea.is-missing {
+  border-color: var(--amber-field-border);
+  background: var(--amber-field-bg);
+}
+
+.hint-missing {
+  font-size: 13px;
+  color: var(--amber-text);
+  margin: 0;
+}
+
+.input.is-error,
+.textarea.is-error {
+  border-color: var(--red);
+}
+
+/* A hint that warns without blocking ("results will be weaker"). */
+.hint-amber {
+  color: var(--amber-text);
+}
+
+.hint-error {
+  font-size: 13px;
+  color: var(--red);
+  margin: 0;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 20px;
+}
+
+@media (max-width: 720px) {
+  .field-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 20px;
+  margin: 0;
+}
+
+legend {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 6px;
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.checkline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.checkline input[type="checkbox"],
+.checkline input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+  flex: none;
+}
+
+/* ---------- badges and chips ---------- */
+
+.badge {
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 12px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.badge-done {
+  color: var(--blue-text);
+  background: var(--blue-tint);
+}
+
+.badge-missing,
+.badge-warning {
+  color: var(--amber-text-on-tint);
+  background: var(--amber-bg);
+}
+
+.badge-info {
+  font-weight: 600;
+  color: var(--info-ink);
+  background: var(--info-bg);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue-text);
+  background: var(--blue-tint);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.chip-remove {
+  font: inherit;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 2px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.chip-remove:hover {
+  color: var(--red);
+}
+
+.meta-chip {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--info-ink);
+  background: var(--info-bg);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+/* Read by screen readers, invisible on screen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Initials in a blue circle, for a person. */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--blue-tint);
+  color: var(--blue-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.avatar-small {
+  width: 26px;
+  height: 26px;
+  font-size: 11px;
+}
+
+/* The one place a destructive action lives on a page, at the bottom. */
+.danger-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-card);
+}
+
+.danger-area .btn {
+  flex: none;
+  white-space: nowrap;
+}
+
+.danger-area .card-title {
+  color: var(--red);
+  margin-bottom: 6px;
+}
+
+/* The activity log's filter bar. */
+.activity-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px 20px;
+  align-items: end;
+  padding: 20px 24px;
+  margin: 16px 0;
+}
+
+.activity-search {
+  grid-column: 1 / -1;
+}
+
+.activity-filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ---------- banners ---------- */
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: var(--radius-panel);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  color: var(--amber-text-on-tint);
+}
+
+.banner-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.banner p {
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.banner-error {
+  background: var(--red-bg);
+  border-color: var(--red-border);
+  color: var(--red);
+}
+
+.banner-done {
+  background: var(--blue-tint);
+  border-color: var(--blue);
+  color: var(--blue-text);
+}
+
+/* ---------- tables ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  font-size: 15px;
+}
+
+/* Table headers as the approved Team and Spend tables have them. */
+th {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--secondary-hover-bg);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* ---------- sign in ---------- */
+
+.centered {
+  min-height: calc(100dvh - 64px);
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+}
+
+.signin {
+  width: 100%;
+  max-width: 400px;
+}
+
+.signin .card {
+  padding: 32px;
+}
+
+.signin-head {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.signin-head p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.credit {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.secret {
+  font-family: ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  font-size: 16px;
+  background: var(--ground);
+  padding: 4px 8px;
+  border-radius: 6px;
+  user-select: all;
+}
+
+/* A one-line confirmation, and its error twin. */
+.notice,
+.error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.notice {
+  color: var(--blue-text);
+  background: var(--blue-tint);
+}
+
+.error {
+  color: var(--red);
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+}
+
+/* The Creative Director's scores on the temporary Mockups screen. */
+.review-block {
+  margin: 4px 0 16px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+}
+
+.review-table th,
+.review-table td {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.review-table th {
+  text-transform: none;
+  letter-spacing: 0;
+  background: var(--secondary-hover-bg);
+}
+
+.review-notes {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+
+.review-notes li + li {
+  margin-top: 4px;
+}
+
+.score {
+  font-weight: 700;
+}
+
+.score-good {
+  color: var(--blue-text);
+}
+
+.score-low {
+  color: var(--red);
+}
+
+/* ---------- brand: top bar logo, Sign in, Signed out ---------- */
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-logo img {
+  display: block;
+  height: 30px;
+  width: auto;
+}
+
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100dvh;
+  background: var(--surface);
+}
+
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 72px;
+  background: var(--navy);
+}
+
+.auth-brand-org {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--navy-muted);
+}
+
+.auth-brand-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.auth-brand-logo {
+  display: block;
+  width: 460px;
+  max-width: 100%;
+  height: auto;
+}
+
+.auth-brand-line {
+  margin: 0;
+  max-width: 460px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--navy-text);
+}
+
+.auth-brand-foot {
+  margin: 0;
+  font-size: 14px;
+  color: var(--navy-muted);
+}
+
+.auth-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.signin-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.signin-lede {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.signin-password-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signin-password-head .field-label {
+  margin: 0;
+}
+
+.btn-inline {
+  min-height: 32px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.signin-submit {
+  width: 100%;
+  min-height: 48px;
+  font-size: 16px;
+}
+
+.signin-help {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.alert-error {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--red);
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-control);
+}
+
+.alert-error svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+/* The same box for good news: "Your password is changed". Done is blue in TAWD. */
+.alert-done {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--blue-text);
+  background: var(--blue-tint);
+  border: 1px solid var(--focus-ring);
+  border-radius: var(--radius-control);
+}
+
+.signed-out-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  color: var(--blue-text);
+  background: var(--blue-tint);
+}
+
+.signed-out-title {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -0.5px;
+}
+
+.signout-modal {
+  max-width: 440px;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgb(24 33 43 / 30%);
+}
+
+.signout-modal p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #3a444e;
+}
+
+@media (max-width: 900px) {
+  .auth-split {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand {
+    padding: 32px 24px;
+    gap: 24px;
+  }
+
+  .auth-brand-logo {
+    width: 280px;
+  }
+}
+
+/* ---------- New and Edit project ---------- */
+
+.page-narrow {
+  max-width: 960px;
+}
+
+.page-narrow .breadcrumb {
+  margin-bottom: 16px;
+}
+
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.choice-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.choice-group legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.pick-cards {
+  display: grid;
+  gap: 12px;
+}
+
+.pick-cards-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pick-cards-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 720px) {
+  .pick-cards-3,
+  .pick-cards-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 44px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--field-border);
+  border-radius: var(--radius-panel);
+  cursor: pointer;
+}
+
+.pick-card:hover {
+  border-color: var(--secondary-hover-border);
+  background: var(--secondary-hover-bg);
+}
+
+.pick-card.is-on {
+  border-color: var(--blue);
+  background: #f3f6ff;
+}
+
+.pick-card:has(input:focus-visible) {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.pick-card-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pick-card.is-on .pick-card-title {
+  color: var(--blue-text);
+}
+
+.pick-card-line {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.choice-sub {
+  margin-top: 12px;
+  padding: 16px;
+  background: var(--secondary-hover-bg);
+  border-radius: var(--radius-panel);
+}
+
+.choice-group > .segmented {
+  align-self: flex-start;
+}
+
+.segment[aria-checked="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(24 33 43 / 12%);
+}
+
+.people-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+@media (max-width: 720px) {
+  .people-picker {
+    grid-template-columns: 1fr;
+  }
+}
+
+.person-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-panel);
+  cursor: pointer;
+}
+
+.person-option:hover {
+  border-color: var(--secondary-hover-border);
+}
+
+.person-option.is-on {
+  border-color: var(--blue);
+  background: #f3f6ff;
+}
+
+.person-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+}
+
+.person-option .avatar-row {
+  margin-right: 0;
+}
+
+.person-option-name {
+  font-weight: 600;
+}
+
+.person-option-roles {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+/* The password rules on Choose your password, ticking as they are met. */
+.password-rules {
+  list-style: none;
+  margin: 0;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  background: var(--secondary-hover-bg);
+  border-radius: var(--radius-control);
+}
+
+.password-rules li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-rules li.is-met {
+  color: var(--blue-text);
+  font-weight: 600;
+}
+
+.password-rule-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  border: 1.5px solid var(--field-border);
+  border-radius: 999px;
+}
+
+.password-rules li.is-met .password-rule-mark {
+  color: #ffffff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+/* 404 and error pages. */
+.status-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  background: var(--ground);
+}
+
+.status-page-body {
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.status-page-logo img {
+  display: block;
+  width: 240px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.status-page-body .section-title {
+  margin: 0;
+}
+
+.status-page-body p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.status-page-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* The empty state: one friendly line and the main action. */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.empty-state .card-title {
+  margin: 0;
+}
+
+.activity-count {
+  margin: 0 0 12px;
+}
+
+.activity-when {
+  white-space: nowrap;
+}
+
+/* "Forgot password?" under the password field on Sign in. */
+.signin-forgot {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/*
+  The top bar on a phone (30 September 2026): two rows, so nothing
+  overlaps. The logo and the account (Change password, Sign out) on the
+  first; the main links underneath (three at most, so they fit).
+  The email is left out on a phone to make room.
+*/
+@media (max-width: 720px) {
+  .topbar {
+    height: auto;
+    padding: 8px 16px 0;
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  .topbar-left {
+    display: contents;
+  }
+
+  .topbar-logo {
+    order: 1;
+  }
+
+  .topbar-right {
+    order: 2;
+    gap: 12px;
+  }
+
+  .topbar-email {
+    display: none;
+  }
+
+  .topbar-nav {
+    order: 3;
+    flex: 1 0 100%;
+    height: 48px;
+    gap: 20px;
+  }
+
+  .topbar-nav > a,
+  .admin-menu {
+    height: 48px;
+  }
+
+  /* The Admin menu opens under the bar, the width of the screen. */
+  .admin-menu-panel {
+    position: fixed;
+    top: 104px;
+    left: 16px;
+    right: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 16px;
+  }
+}
+
+/* Build B, B1: the WordPress package, under a divider in the Hosting card. */
+.hosting-package {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+/* F1, Website forms: a field per row, its Required toggle on the right (under the label on a phone). */
+.form-fields {
+  display: grid;
+  gap: 8px;
+}
+.form-field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.form-field-row .hint {
+  margin: 2px 0 0 26px;
+}
+.form-field-required {
+  flex-shrink: 0;
+}
+.form-recipient-row {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.form-recipient-row .input {
+  flex: 1 1 240px;
+}
+@media (max-width: 480px) {
+  .form-field-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .form-field-required {
+    margin-left: 26px;
+  }
+}
+
+/* F3: the client's private page (no login, no menu) and the Connect the domain panels. */
+.client-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 16px 64px;
+  display: grid;
+  gap: 16px;
+}
+.client-page-brand {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+.client-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+.client-list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+.client-change {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+.client-record {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 4px 12px;
+  margin: 8px 0;
+}
+.client-record dt {
+  color: var(--muted);
+  font-size: 13px;
+}
+.client-record dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.connect-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin: 0;
+}
+.connect-facts dt {
+  font-size: 12px;
+  color: var(--muted);
+}
+.connect-facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.connect-records {
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.connect-records th,
+.connect-records td {
+  text-align: left;
+  padding: 6px 16px 6px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.connect-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.connect-changes code,
+.connect-records code {
+  overflow-wrap: anywhere;
+}
+
+/* F3: the Connect the domain panels stack (the step's form row is a wrapping line for small forms). */
+.golive-form.connect-lookup,
+.golive-form.connect-point {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.connect-point .connect-records,
+.connect-point .connect-changes {
+  width: 100%;
+}
+.connect-link,
+.connect-access {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.connect-records th,
+.connect-records td:not(:last-child) {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  padding-right: 12px;
+}

@@ -1,0 +1,1353 @@
+/*
+  Content, 7a (26 September 2026): keyword research and the page plan.
+  Built from DESIGN.md's cards, tables, badges and fields.
+*/
+
+.content-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+.content-card-head .card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.content-card-head .hint {
+  max-width: 720px;
+}
+
+.content-card-head > .btn {
+  flex: none;
+}
+
+.content-warn {
+  color: var(--amber-text);
+}
+
+.content-done-line {
+  margin: 4px 0 14px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* A read that failed: what to do, in order (6 October 2026). */
+.content-ways {
+  margin: 4px 0 14px;
+  padding-left: 20px;
+}
+
+.content-ways li + li {
+  margin-top: 4px;
+}
+
+.content-table {
+  margin: 0 -28px 8px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- the page plan ---------- */
+
+.plan-list {
+  list-style: none;
+  margin: 8px -28px 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.plan-row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 16px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.plan-row.is-editing {
+  display: block;
+  background: var(--blue-tint);
+}
+
+.plan-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--secondary-hover-bg);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.plan-name {
+  margin: 2px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 16px;
+}
+
+.plan-slug {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.plan-facts {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 6px 16px;
+  margin: 0;
+}
+
+.plan-facts > div {
+  display: contents;
+}
+
+.plan-facts dt {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.plan-facts dd {
+  margin: 0;
+  font-size: 14px;
+}
+
+.plan-empty {
+  color: var(--muted);
+}
+
+.plan-length {
+  margin-left: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.plan-length.is-over {
+  color: var(--amber-text);
+  font-weight: 600;
+}
+
+.plan-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.plan-actions .icon-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.plan-foot {
+  padding: 16px 0 0;
+}
+
+.plan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plan-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+@media (max-width: 900px) {
+  .plan-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .plan-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .plan-number {
+    display: none;
+  }
+
+  .plan-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Moving a page isn't destructive: the arrows keep the neutral hover, not the intake's red. */
+.plan-actions .icon-button:not(:disabled):hover {
+  background: var(--secondary-hover-bg);
+  color: var(--ink);
+}
+
+/* ---------- 7b: drafts, the page review and the copy pack ---------- */
+
+.content-done {
+  color: var(--blue-text);
+}
+
+.copy-pack {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius-panel);
+  background: var(--blue-tint);
+}
+
+.copy-pack-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.radio-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 15px;
+}
+
+.back-link {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.review-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+@media (max-width: 1100px) {
+  .review-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.draft-copy {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 720px;
+}
+
+.draft-copy h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 8px 0 16px;
+}
+
+.draft-copy h2 {
+  font-size: 23px;
+  margin: 28px 0 8px;
+}
+
+.draft-copy h3 {
+  font-size: 18px;
+  margin: 18px 0 6px;
+}
+
+/* Kept pages (6 October 2026): the current site's smaller headings, quotes, tables and links. */
+.draft-copy h4,
+.draft-copy h5,
+.draft-copy h6 {
+  font-size: 16px;
+  margin: 14px 0 4px;
+}
+
+.draft-copy blockquote {
+  margin: 12px 0;
+  padding: 4px 0 4px 16px;
+  border-left: 3px solid var(--line);
+  color: var(--muted);
+}
+
+.draft-copy .draft-table {
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 15px;
+}
+
+.draft-copy .draft-table td {
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+}
+
+.draft-copy .draft-link {
+  color: var(--blue-text);
+  text-decoration: underline;
+}
+
+.draft-copy mark.placeholder {
+  background: var(--amber-bg);
+  color: #6b3a00;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.draft-textarea {
+  min-height: 520px;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.draft-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seo-checks {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.seo-checks li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.seo-checks .badge {
+  text-align: center;
+}
+
+.seo-check-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.seo-checks .hint {
+  margin: 2px 0 0;
+}
+
+.content-score {
+  margin: 8px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.page-comments {
+  list-style: none;
+  margin: 8px 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.page-comments li {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+}
+
+.page-comments li.is-resolved {
+  opacity: 0.6;
+}
+
+.page-comment-body {
+  margin: 4px 0;
+  font-size: 15px;
+  white-space: pre-wrap;
+}
+
+/* ---------- Build A, 8a: the site ---------- */
+
+.site-done {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 8px 0 4px;
+}
+
+.site-pages {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.site-page-shot {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--ground);
+}
+
+.site-page-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.site-page-shot .hint {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.site-page-name {
+  margin: 8px 0 2px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+/* ---------- Build A, 8b: previews ---------- */
+
+.deploy-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deploy-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+/* ---------- Build A, 8c: monthly edits ---------- */
+
+.edit-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-list > li {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+}
+
+.edit-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.edit-words {
+  margin: 0;
+  font-size: 15px;
+}
+
+.edit-actions {
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+.tracked-changes {
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.change-removed,
+.change-added {
+  margin: 2px 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.change-removed {
+  background: var(--red-bg);
+  color: var(--red);
+  text-decoration: line-through;
+}
+
+.change-added {
+  background: var(--blue-tint);
+  color: var(--blue-text);
+}
+
+.page-picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* ---------- SEO audits of the current website (26 September 2026) ---------- */
+
+code.path {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+}
+
+/* ---------- Keep the current site (6 October 2026) ---------- */
+
+.kept-lists {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.kept-lists summary,
+.suggestion summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.kept-lists ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.suggestion-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.suggestion {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.suggestion-title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.suggestion-title .badge {
+  margin-right: 6px;
+}
+
+.suggestion-items {
+  margin: 6px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.redirect-unmatched {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.audit-add {
+  margin: 4px 0 8px;
+  padding: 14px 16px;
+  border: 1px dashed var(--field-border);
+  border-radius: var(--radius-panel);
+}
+
+.audit-report {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.audit-heading {
+  margin: 20px 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.audit-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.audit-list .hint {
+  margin: 2px 0 0;
+}
+
+.audit-suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* The SEO check's findings: a wider badge column ("For the team"). */
+.seo-checks-wide li {
+  grid-template-columns: 110px minmax(0, 1fr);
+}
+
+/* Build page: Go live (Phase 9, 28 September 2026). */
+.golive-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.golive-fee {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+}
+
+.golive-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.golive-step {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+}
+
+.golive-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 2px solid var(--blue);
+  color: var(--blue-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.golive-num.is-done {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.golive-step-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.golive-step-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.golive-step-body .hint {
+  margin: 4px 0 8px;
+}
+
+.golive-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.golive-form .input {
+  flex: 1 1 220px;
+}
+
+.golive-records {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.golive-records code {
+  overflow-wrap: anywhere;
+}
+
+.golive-gate {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.red-box {
+  padding: 16px;
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-panel);
+}
+
+.red-box .card-title {
+  margin: 0 0 6px;
+  color: var(--red);
+}
+
+.red-box ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.golive-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Go live, step 7: where the domain is registered and DNSSEC (28 September 2026). */
+.golive-registry {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  margin: 4px 0 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--ground);
+}
+
+.golive-registry p {
+  margin: 0;
+}
+
+/* Share for review on the preview card (29 September 2026). */
+.share-review {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.share-review-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 8px 0 0;
+}
+
+/* Go live, a guided checklist (30 September 2026): only the current step is open. */
+.golive-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.golive-layout .golive-steps {
+  gap: 0;
+  margin-top: 16px;
+}
+
+.golive-step {
+  padding: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.golive-step.is-current {
+  background: var(--blue-tint);
+  border-radius: var(--radius-panel);
+  border-top-color: transparent;
+}
+
+.golive-step.is-current + .golive-step {
+  border-top-color: transparent;
+}
+
+.golive-num.is-later {
+  border-color: var(--field-border);
+  color: var(--locked-ink);
+}
+
+.golive-step.is-later .golive-step-name {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.golive-who {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.golive-apart {
+  margin-top: 16px;
+}
+
+.golive-launch {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.golive-launch .hint {
+  margin: 0;
+}
+
+.golive-launch .golive-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .golive-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The Build page's parts (30 September 2026). */
+.build-parts {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  overflow-x: auto;
+}
+
+.build-part {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+}
+
+.build-part:hover {
+  background: var(--secondary-hover-bg);
+}
+
+.build-part.is-active {
+  color: var(--blue-text);
+  border-bottom-color: var(--blue);
+  border-radius: 8px 8px 0 0;
+}
+
+.build-part-state {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.build-part-state.is-done {
+  color: var(--blue-text);
+}
+
+/* Updates (1 October 2026): the month's hours, done / planned / left. */
+.hours-meter {
+  display: flex;
+  height: 12px;
+  margin: 10px 0 6px;
+  overflow: hidden;
+  background: var(--disabled-bg, #e3e6e8);
+  border-radius: 999px;
+}
+
+.hours-meter i {
+  background: var(--blue);
+}
+
+.hours-meter em {
+  background: #9db7fa;
+}
+
+.hours-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 6px 0 10px;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+
+.hours-legend span:first-child::before {
+  margin-left: 0;
+}
+
+.hours-legend .is-done::before {
+  background: var(--blue);
+}
+
+.hours-legend .is-planned::before {
+  background: #9db7fa;
+}
+
+.hours-legend .is-left::before {
+  background: #e3e6e8;
+}
+
+/* Choosing a request's category: chips that are real radio inputs. */
+.chip-pick {
+  cursor: pointer;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--field-border);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.chip-pick.is-picked {
+  border-color: var(--blue);
+  background: var(--blue-tint);
+  color: var(--blue-text);
+  font-weight: 600;
+}
+
+.chip-pick:focus-within {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.updates-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .updates-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.invoice-table input {
+  width: 100%;
+}
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2) {
+  width: 38%;
+}
+
+.invoice-table th:nth-child(1),
+.invoice-table td:nth-child(1) {
+  width: 170px;
+}
+
+/* Form messages, delivery checks and the WordPress go-live steps: room for the longest state ("Not checked yet"); stacked on a phone. */
+.seo-checks-states li {
+  grid-template-columns: 136px minmax(0, 1fr);
+}
+@media (max-width: 480px) {
+  .seo-checks-states li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .seo-checks-states .badge {
+    justify-self: start;
+  }
+}
+
+/* F2: the Form messages card, in two sections. */
+.fm-section {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.fm-heading {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.fm-section .seo-checks {
+  margin: 0;
+}
+.fm-test {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.fm-test .hint {
+  margin: 0;
+}
+.fm-actions {
+  display: flex;
+  gap: 4px;
+  margin: 4px 0 0 -8px;
+}
+
+/* The Speed check (1 October 2026): Google's scores in its own bands. */
+.speed-table {
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.speed-table th,
+.speed-table td {
+  padding: 6px 12px 6px 0;
+  text-align: left;
+  font-weight: 500;
+}
+.speed-table thead th {
+  color: var(--muted);
+  font-weight: 500;
+}
+.speed-score {
+  display: inline-block;
+  min-width: 36px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-align: center;
+}
+.speed-good {
+  color: var(--blue-text);
+  background: var(--blue-tint);
+}
+.speed-fair {
+  color: var(--amber-text-on-tint);
+  background: var(--amber-bg);
+}
+.speed-poor {
+  color: var(--red);
+  background: var(--red-bg);
+}
+.speed-none {
+  color: var(--muted);
+}
+.speed-fixes {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+
+/* Staged site builds (6 October 2026): the stages of "The site" card. */
+.stage-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.stage-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.stage-row p {
+  margin: 0;
+}
+.stage-row .hint {
+  margin-top: 2px;
+}
+.stage-row.is-next .stage-name {
+  font-weight: 600;
+}
+.stage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 12px;
+}
+
+/* Blocked sites (7 October 2026): the pages nothing could read, and archive copies over 6 months old. */
+.kept-gaps {
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  border-radius: var(--radius-control);
+  color: var(--amber-text-on-tint);
+  font-size: 14px;
+}
+
+.kept-gaps p {
+  margin: 0;
+}
+
+.kept-gaps ul {
+  margin: 6px 0;
+  padding-left: 20px;
+  overflow-wrap: anywhere;
+}
+
+.spend-table tr.kept-old td {
+  background: var(--amber-field-bg);
+}
+
+/* Design + content (0.100.0): the improved words compared with the current site's. */
+.improve-compare-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.improve-compare-bar .hint-amber {
+  flex-basis: 100%;
+}
+
+.improve-diff {
+  white-space: pre-wrap;
+}
+
+.improve-diff ins {
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  background: var(--blue-tint);
+}
+
+.improve-diff del {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+/*
+  Content as one step (0.100.0): TAWD's steps as an accordion in one card,
+  one row open at a time. A step the project doesn't need is greyed with
+  why; the extras sit under More. The cards inside lose their own frame
+  and title (the row's head is the title).
+*/
+.content-steps-card {
+  padding: 8px 0;
+}
+
+.content-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.content-step + .content-step {
+  border-top: 1px solid var(--line);
+}
+
+.content-step-head {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 24px;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.content-step-head:disabled {
+  cursor: default;
+}
+
+.content-step-head:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+
+.content-step-number {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--blue-tint);
+  color: var(--blue-text);
+}
+
+.content-step-number.is-done {
+  background: var(--blue);
+  color: #fff;
+}
+
+.content-step-number.is-problem {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.content-step-number.is-not-needed {
+  background: var(--info-bg);
+  color: var(--muted);
+}
+
+.content-step-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.content-step-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.content-step-off,
+.content-step-optional {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.content-step.is-not-needed .content-step-title {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.content-step-chevron {
+  flex: none;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--muted);
+}
+
+.content-step-body {
+  padding: 0 24px 20px 66px;
+}
+
+.content-step-body > .card {
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  background: transparent;
+}
+
+.content-step-body > .card + .card {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.content-step-body > .card:first-child > .content-card-head .card-title {
+  display: none;
+}
+
+.content-steps-more {
+  border-top: 1px solid var(--line);
+  padding: 12px 24px 4px;
+}
+
+.content-steps-more .content-steps {
+  margin: 8px -24px 0;
+}
+
+@media (max-width: 720px) {
+  .content-step-head {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .content-step-body {
+    padding: 0 16px 16px;
+  }
+
+  .content-steps-more {
+    padding: 12px 16px 4px;
+  }
+
+  .content-steps-more .content-steps {
+    margin: 8px -16px 0;
+  }
+}
+
+/* Prepare the content and Improve the words (0.100.0). */
+.prepare-steps {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prepare-steps .is-skipped {
+  color: var(--muted);
+}
+
+.improve-list {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.improve-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.improve-list .checkline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Back to Content from a page lands on its row (8 October 2026). */
+.draft-row:target td {
+  background: var(--blue-tint);
+}

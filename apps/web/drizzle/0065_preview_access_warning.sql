@@ -1,0 +1,1 @@
+ALTER TABLE "site_deploy" ADD COLUMN "access_warning" text;

@@ -1,0 +1,1 @@
+ALTER TABLE "figma_design" ADD COLUMN "pages_read" jsonb;

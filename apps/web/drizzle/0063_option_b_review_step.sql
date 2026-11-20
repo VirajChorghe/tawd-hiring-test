@@ -1,0 +1,3 @@
+ALTER TABLE "figma_design" ADD COLUMN "review_skipped_at" timestamp with time zone;--> statement-breakpoint
+ALTER TABLE "figma_design" ADD COLUMN "review_skipped_by_user_id" text;--> statement-breakpoint
+ALTER TABLE "figma_design" ADD CONSTRAINT "figma_design_review_skipped_by_user_id_user_id_fk" FOREIGN KEY ("review_skipped_by_user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
