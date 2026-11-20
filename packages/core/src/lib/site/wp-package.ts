@@ -7,7 +7,7 @@ import { WP_INSTALL_PHP } from "./wp-install";
 import { headerMenu, type WpMenu } from "./wp-menu";
 import { SPEED_IMAGES_FILE, stripSpeedForBlocks } from "./speed-tags";
 import { formatPhonesInHtml } from "../phone";
-import { describeChanges, passOverPage } from "./kept-page";
+import { describeChanges, keptPhoneStyle, passOverPage } from "./kept-page";
 
 /*
   Build B, B1 (1 October 2026): the WordPress package. Everything a
@@ -237,7 +237,9 @@ export function wordpressPackage(input: WpPackageInput): { files: Map<string, Ui
     const bytes = input.files.get(name);
     if (!bytes) return null;
     if (!name.endsWith(".html")) return decoder.decode(bytes);
-    const passed = passOverPage(decoder.decode(bytes), (page) => formatPhonesInHtml(page));
+    const html = decoder.decode(bytes);
+    const style = keptPhoneStyle(html);
+    const passed = passOverPage(html, (page) => formatPhonesInHtml(page, style));
     // text() reads a page more than once; the note is told once.
     const note = `${name}: the supplied page is kept as it is. Phone layout: ${describeChanges(passed.wouldChange)}.`;
     if (passed.wouldChange.length && !notes.includes(note)) notes.push(note);

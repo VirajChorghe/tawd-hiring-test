@@ -736,8 +736,7 @@ describe("a supplied home page keeps every word the visitor reads", () => {
     expect(item.blocksGoLive).toBe(false);
     expect(item.detail).toContain("exactly as the client approved");
     expect(item.detail).toContain('"Start with a conversation" would have become "Request a quote"');
-    expect(item.detail).toContain("530-227-2479");
-    expect(item.detail).toContain("(530) 227-2479");
+    expect(item.detail).toContain('"Call 530-227-2479 or 530.227.2479 any day." would have become "Call 530-227-2479 or 530-227-2479 any day."');
     expect(item.detail).toContain("The form");
     expect(item.detail).toContain("picture frame");
   }, 60_000);
@@ -755,15 +754,15 @@ describe("a supplied home page keeps every word the visitor reads", () => {
   }, 60_000);
 
   it("shows every change the rules would have made, not only the first few", async () => {
-    const phones = [1, 2, 3, 4, 5, 6].map((n) => `<p>Line ${n}: 530-227-100${n}</p>`).join("");
+    const phones = [1, 2, 3, 4, 5, 6].map((n) => `<p>Line ${n}: 530.227.100${n}</p>`).join("");
     const { build } = await builtHome(RICH.replace("<p>Phone: 530-227-2479</p>", `<p>Phone: 530-227-2479</p>${phones}`)); 
 
     const item = (build.checks as { key: string; detail: string; every?: string[] }[]).find((c) => c.key === "suppliedHomeKept")!;
     expect(item.detail).toMatch(/and \d+ more, all listed in full below/);
-    // All eight changed pieces (the six new lines and the two the page already had) are there in full, none dropped.
+    // All seven changed phone lines (the six new lines and the one the page already had) are there in full, none dropped.
     const lines = (item.every ?? []).filter((l) => l.startsWith("The phone number layout: "));
-    expect(lines).toHaveLength(8);
-    for (let n = 1; n <= 6; n += 1) expect(lines.join("\n")).toContain(`"Line ${n}: 530-227-100${n}" would have become "Line ${n}: (530) 227-100${n}"`);
+    expect(lines).toHaveLength(7);
+    for (let n = 1; n <= 6; n += 1) expect(lines.join("\n")).toContain(`"Line ${n}: 530.227.100${n}" would have become "Line ${n}: 530-227-100${n}"`);
   }, 60_000);
 
   it("builds every other page exactly as before: the rules still rewrite them", async () => {

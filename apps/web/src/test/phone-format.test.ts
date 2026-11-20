@@ -18,6 +18,7 @@ import {
   formatPhonesInHtml,
   formatPhonesInText,
   formatUsPhone,
+  phoneStyleOf,
   keptWordsCheck,
   localBusinessSchema,
   notFoundMain,
@@ -141,6 +142,25 @@ describe("numbers in a page's words", () => {
     for (const kept of [jsonLd, style, block, textarea, `<img alt="916-555-0142" src="/a-916-555-0142.jpg">`, `<script>var n = "916-555-0142";</script>`]) expect(out).toContain(kept);
     // Run twice: nothing more changes.
     expect(formatPhonesInHtml(out)).toBe(out);
+  });
+
+  it("writes the numbers in a page's own style when it has one (a kept page's header and footer)", () => {
+    expect(formatPhonesInText("Call (916) 555-0142 or 916.555.0143 or 916 555 0144.", "dash")).toBe("Call 916-555-0142 or 916-555-0143 or 916-555-0144.");
+    expect(formatPhonesInText("Call 916-555-0142", "dot")).toBe("Call 916.555.0142");
+    expect(formatPhonesInText("Call 916.555.0142", "space")).toBe("Call 916 555 0142");
+    expect(formatPhonesInText("Call 916.555.0142", "paren")).toBe("Call (916) 555-0142");
+    expect(formatPhonesInHtml("<p>530.227.2479</p>", "dash")).toBe("<p>530-227-2479</p>");
+    const tel = `<a href="tel:+15302272479">Call 530.227.2479</a>`;
+    expect(formatPhonesInHtml(tel, "dash")).toBe(`<a href="tel:+15302272479">Call 530-227-2479</a>`);
+  });
+
+  it("reads a page's style from its first number, and says the standard when it has none", () => {
+    expect(phoneStyleOf("Call 530-227-2479")).toBe("dash");
+    expect(phoneStyleOf("Call 530.227.2479")).toBe("dot");
+    expect(phoneStyleOf("Call 530 227 2479")).toBe("space");
+    expect(phoneStyleOf("Call (530) 227-2479")).toBe("paren");
+    expect(phoneStyleOf("Licence 916-555-0142 then 530.227.2479")).toBe("dot");
+    expect(phoneStyleOf("Prices from $99. Open 24/7.")).toBe("paren");
   });
 
   it("hands back a page with no numbers exactly as it was", () => {

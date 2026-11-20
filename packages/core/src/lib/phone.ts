@@ -103,13 +103,39 @@ function dashFor(sep: string): string {
   return "-";
 }
 
-/** Every US number in a stretch of words, rewritten as "(916) 555-0142". */
-export function formatPhonesInText(text: string): string {
+/*
+  How a page writes its numbers: "(916) 555-0142" (TAWD's standard), or with
+  the separators of "916-555-0142", "916.555.0142" or "916 555 0142". A kept
+  page's own header and footer use the page's style (Option A, 16 November 2026).
+*/
+export type PhoneStyle = "paren" | "dash" | "dot" | "space";
+
+const STYLE_SEPARATOR: Record<Exclude<PhoneStyle, "paren">, string> = { dash: "-", dot: ".", space: " " };
+
+/** The style of the first US number in some words; "paren" when there is none. */
+export function phoneStyleOf(text: string): PhoneStyle {
+  for (const m of text.matchAll(IN_TEXT)) {
+    const at = m.index ?? 0;
+    if (NOT_A_PHONE_BEFORE.test(text.slice(Math.max(0, at - 40), at))) continue;
+    if (m[1] !== undefined) return "paren";
+    const sep = m[6]!;
+    if (sep === ".") return "dot";
+    return /\s|&nbsp;|&#160;|&#xa0;/i.test(sep) ? "space" : "dash";
+  }
+  return "paren";
+}
+
+/** Every US number in a stretch of words, rewritten in the style (default "(916) 555-0142"). */
+export function formatPhonesInText(text: string, style: PhoneStyle = "paren"): string {
   IN_TEXT.lastIndex = 0;
   if (!IN_TEXT.test(text)) return text;
   IN_TEXT.lastIndex = 0;
   return text.replace(IN_TEXT, (found: string, parenArea: string | undefined, parenSep: string | undefined, area: string | undefined, areaSep: string | undefined, exchange: string, lineSep: string, line: string, offset: number) => {
     if (NOT_A_PHONE_BEFORE.test(text.slice(Math.max(0, offset - 40), offset))) return found;
+    if (style !== "paren") {
+      const sep = STYLE_SEPARATOR[style];
+      return `${parenArea ?? area}${sep}${exchange}${sep}${line}`;
+    }
     return `(${parenArea ?? area}) ${exchange}`.replace(" ", spaceFor(parenSep ?? areaSep)) + `${dashFor(lineSep)}${line}`;
   });
 }
@@ -122,20 +148,20 @@ export function formatPhonesInText(text: string): string {
 const TOKENS =
   /<!--[\s\S]*?(?:-->|$)|<!\[CDATA\[[\s\S]*?(?:\]\]>|$)|<(script|style|textarea|xmp)\b(?:"[^"]*"|'[^']*'|[^'">])*>[\s\S]*?(?:<\/\1\s*>|$)|<[!?]?\/?[A-Za-z](?:"[^"]*"|'[^']*'|[^'">])*>/gi;
 
-/** Every US number in a page's visible words, rewritten as "(916) 555-0142"; everything else byte for byte. */
-export function formatPhonesInHtml(html: string): string {
+/** Every US number in a page's visible words, rewritten as "(916) 555-0142" (or in the given style); everything else byte for byte. */
+export function formatPhonesInHtml(html: string, style: PhoneStyle = "paren"): string {
   IN_TEXT.lastIndex = 0;
   if (!IN_TEXT.test(html)) return html;
   let out = "";
   let last = 0;
   TOKENS.lastIndex = 0;
   for (let m = TOKENS.exec(html); m; m = TOKENS.exec(html)) {
-    if (m.index > last) out += formatPhonesInText(html.slice(last, m.index));
+    if (m.index > last) out += formatPhonesInText(html.slice(last, m.index), style);
     out += m[0];
     last = m.index + m[0].length;
     if (m[0].length === 0) TOKENS.lastIndex += 1;
   }
-  if (last < html.length) out += formatPhonesInText(html.slice(last));
+  if (last < html.length) out += formatPhonesInText(html.slice(last), style);
   return out;
 }
 
