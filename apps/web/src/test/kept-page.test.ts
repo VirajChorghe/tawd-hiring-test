@@ -4,7 +4,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { checkPageRules } from "@tawd/core/mockups";
-import { describeChanges, describeEach, joinSentences, formatPhonesInHtml, isKeptMain, keepMainThrough, passOverPage, restampKept, sharedPartsNote, textChanges, visibleWordsLine, visibleWords, wordpressPackage, MAX_COMPARE_CELLS } from "@tawd/core/site";
+import { describeChanges, describeEach, joinSentences, formatPhonesInHtml, isKeptMain, keepMainThrough, keptPhoneStyle, passOverPage, restampKept, sharedPartsNote, textChanges, visibleWordsLine, visibleWords, wordpressPackage, MAX_COMPARE_CELLS } from "@tawd/core/site";
 import { formatSitePhones, sharedPartsNotes, tidySitePages } from "../../../worker/src/site-build";
 
 /*
@@ -97,9 +97,10 @@ describe("the passes over a finished site, run again later", () => {
       expect(await formatSitePhones(dist, (file) => told.push(file))).toBe(2);
       const home = await readFile(path.join(dist, "index.html"), "utf8");
       expect(home).toContain(KEPT);
-      expect(home).toContain("<footer><p>(530) 227-2479</p></footer>");
+      expect(home).toContain("<header><p>Phone 530-227-2479</p></header>");
+      expect(home).toContain("<footer><p>530-227-2479</p></footer>");
       expect(await readFile(path.join(dist, "about", "index.html"), "utf8")).toContain("<p>Call (530) 227-2479</p>");
-      expect(told).toEqual(["index.html"]);
+      expect(told).toEqual([]);
     } finally {
       await rm(dist, { recursive: true, force: true });
     }
@@ -256,6 +257,23 @@ describe("the shared header and footer are said to be TAWD's own (M1)", () => {
   });
 });
 
+describe("a kept page's header and footer use its own phone style (Option A)", () => {
+  it("takes the style of the kept <main>, and TAWD's standard for a page that is not kept", () => {
+    expect(keptPhoneStyle(PAGE(`<main id="main" data-tawd-kept><p>Call 530.227.2479</p></main>`))).toBe("dot");
+    expect(keptPhoneStyle(PAGE(`<main id="main" data-tawd-kept><p>Call us today</p></main>`))).toBe("paren");
+    expect(keptPhoneStyle(PAGE(KEPT.replace(" data-tawd-kept", "")))).toBe("paren");
+  });
+  it("writes the header and footer in that style, and leaves the kept words exactly as they were", () => {
+    const html = PAGE(`<main id="main" data-tawd-kept><p>Call 530-227-2479</p></main>`);
+    const style = keptPhoneStyle(html);
+    const out = passOverPage(html, (page) => formatPhonesInHtml(page, style));
+    expect(out.html).toContain("<header><p>Phone 530-227-2479</p></header>");
+    expect(out.html).toContain("<footer><p>530-227-2479</p></footer>");
+    expect(out.html).toContain(`<main id="main" data-tawd-kept><p>Call 530-227-2479</p></main>`);
+    expect(out.wouldChange).toEqual([]);
+  });
+});
+
 describe("an edit cannot drop the kept mark (M2)", () => {
   it("puts the mark back on the model's <main> when the page had it", () => {
     const after = `<main id="main"><h1>New</h1></main>`;
@@ -276,10 +294,11 @@ describe("Build B does not rewrite a kept page's words (M4)", () => {
     const { files, report } = wordpressPackage({ clientName: "Harbor Plumbing", buildVersion: 1, files: new Map([["index.html", enc(wrap(main))]]), formEmails: { to: [], copy: null } });
     return { home: new TextDecoder().decode(files.get("content/pages/home.html")!), report };
   };
-  it("keeps the phone in a kept <main> as written and tells the team; an ordinary page is reformatted as before", () => {
+  it("keeps the phone in a kept <main> as written, and its header and footer follow that style; an ordinary page is reformatted as before", () => {
     const kept = run(`<main id="main" data-tawd-kept><h1>Harbor</h1><p>Call 530-227-2479</p></main>`);
     expect(kept.home).toContain("Call 530-227-2479");
-    expect(kept.report.notes.join(" ")).toContain('"Call 530-227-2479" would have become "Call (530) 227-2479"');
+    expect(kept.home).not.toContain("(530) 227-2479");
+    expect(kept.report.notes.join(" ")).not.toContain("would have become");
     const plain = run(`<main id="main"><h1>Harbor</h1><p>Call 530-227-2479</p></main>`);
     expect(plain.home).toContain("Call (530) 227-2479");
     expect(plain.report.notes.join(" ")).not.toContain("would have become");

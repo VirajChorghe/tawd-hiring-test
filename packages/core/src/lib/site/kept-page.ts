@@ -1,6 +1,8 @@
 import { parseDocument } from "htmlparser2";
 import type { ChildNode, Element } from "domhandler";
 
+import { phoneStyleOf, type PhoneStyle } from "../phone";
+
 /*
   A page the team supplied is kept as it is (Jason, 16 November 2026: "if we
   are providing a supplied home page why is TAWD changing it? That is not the
@@ -299,6 +301,16 @@ export function keptMainWords(html: string): string | null {
   if (!isKeptMain(html)) return null;
   const bounds = mainBounds(html);
   return bounds ? visibleWordsLine(html.slice(bounds.start, bounds.end)) : null;
+}
+
+/*
+  The phone style a page's shared header and footer are written in: the style
+  its own kept <main> uses (Option A, 16 November 2026), so one page never
+  shows two formats. TAWD's standard for any page that is not kept.
+*/
+export function keptPhoneStyle(html: string): PhoneStyle {
+  const words = keptMainWords(html);
+  return words === null ? "paren" : phoneStyleOf(words);
 }
 
 /*

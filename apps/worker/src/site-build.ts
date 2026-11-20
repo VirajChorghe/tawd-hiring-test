@@ -105,6 +105,7 @@ import {
   joinSentences,
   isKeptMain,
   passOverPage,
+  keptPhoneStyle,
   restampKept,
   sharedPartsNote,
   type TextChange,
@@ -484,8 +485,9 @@ export async function formatSitePhones(dist: string, onKept?: (file: string, cha
   for (const file of await listFiles(dist)) {
     if (!file.endsWith(".html")) continue;
     const html = await fs.readFile(path.join(dist, file), "utf8");
-    // A kept page (a supplied homepage) keeps its own phone number as written: the layout rule runs everywhere else on the page, and what it would have done to the kept words is reported.
-    const passed = passOverPage(html, (page) => formatPhonesInHtml(page));
+    // A kept page (a supplied homepage) keeps its own phone numbers as written, and its header and footer are written in the same style as its <main>; what the rule would have done to the kept words is reported.
+    const style = keptPhoneStyle(html);
+    const passed = passOverPage(html, (page) => formatPhonesInHtml(page, style));
     if (passed.wouldChange.length) onKept?.(file, passed.wouldChange);
     if (!passed.applied) continue;
     const formatted = passed.html;
